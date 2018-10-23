@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Hotel Reservation</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+  <h3 th:text="${guest.name}"></h3>
+
+  <table class="table">
+    <thead>
+    <tr th:if="${guest.reservations.empty}">
+      <td colspan="2">
+        <h3>No Reservations Available</h3>
+      </td>
+    </tr>
+    <tr th:if="${!guest.reservations.empty}">
+      <th scope="col">Hotel name</th>
+      <th scope="col">Apartment number</th>
+      <th scope="col">Start reservation day</th>
+      <th scope="col">End reservation day</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation: ${guest.reservations}">
+      <td th:text="${reservation.hotel.hotelName}"></td>
+      <td th:text="${reservation.apartmentNumber}"></td>
+      <td th:text="${reservation.startReservationDay}"></td>
+      <td th:text="${reservation.endReservationDay}"></td>
+      <td>
+        <form action="#" th:action="@{/edit}" th:object="${reservationId}" method="post">
+          <input type="hidden" th:value="${reservation.reservationId}" id="id1" name="id" class="form-control">
+          <input type="hidden" th:value="${guest.guestId}" id="guestId1" name="guestId" class="form-control">
+          <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+      </td>
+      <td>
+        <form action="#" th:action="@{/delete}" th:object="${reservationId}" method="post">
+          <input type="hidden" th:value="${reservation.reservationId}" id="id2" name="id" class="form-control">
+          <input type="hidden" th:value="${guest.guestId}" id="guestId2" name="guestId" class="form-control">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <form action="#" th:action="@{/reservationForm}" method="get">
+    <button type="submit" class="btn btn-primary btn-lg">Create reservation</button>
+  </form>
+</div>
+</body>

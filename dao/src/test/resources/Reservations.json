@@ -1,0 +1,27 @@
+{
+  "reservationId": "5bc7340b677aa44e986d19db",
+  "hotel": {
+    "hotelId": "5bc7340b677aa44e986d19db",
+    "hotelName": "Abc",
+    "apartments": [
+      {
+        "apartmentNumber": "1",
+        "roomCount": "4"
+      },
+      {
+        "apartmentNumber": "2",
+        "roomCount": "3"
+      },
+      {
+        "apartmentNumber": "3",
+        "roomCount": "2"
+      }
+    ]
+  },
+  "apartmentNumber": "3",
+  "reservationDay": [
+    18177,
+    18178,
+    18179
+  ]
+}

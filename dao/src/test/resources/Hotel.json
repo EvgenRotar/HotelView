@@ -1,0 +1,18 @@
+{
+  "hotelId": "5bc6e8d9677aa40692f9879a",
+  "hotelName": "Abc",
+  "apartments": [
+    {
+      "apartmentNumber": "1",
+      "roomCount": "4"
+    },
+    {
+      "apartmentNumber": "2",
+      "roomCount": "3"
+    },
+    {
+      "apartmentNumber": "3",
+      "roomCount": "2"
+    }
+  ]
+}

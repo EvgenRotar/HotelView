@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -60,6 +61,7 @@ public class WebConfig implements WebMvcConfigurer {
     templateResolver.setApplicationContext(applicationContext);
     templateResolver.setPrefix("/WEB-INF/views/");
     templateResolver.setSuffix(".html");
+    templateResolver.setTemplateMode("HTML5");
     return templateResolver;
   }
 
@@ -67,15 +69,23 @@ public class WebConfig implements WebMvcConfigurer {
   public SpringTemplateEngine templateEngine() {
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
     templateEngine.setTemplateResolver(templateResolver());
-    templateEngine.setEnableSpringELCompiler(true);
+    templateEngine.setMessageSource(messageSource());
     return templateEngine;
   }
 
-  @Override
-  public void configureViewResolvers(ViewResolverRegistry registry) {
-    ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-    resolver.setTemplateEngine(templateEngine());
-    registry.viewResolver(resolver);
+  @Bean
+  public ThymeleafViewResolver viewResolver() {
+    ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+    viewResolver.setTemplateEngine(templateEngine());
+    viewResolver.setOrder(1);
+    return viewResolver;
+  }
+
+  @Bean
+  public ResourceBundleMessageSource messageSource() {
+    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+    messageSource.setBasename("messages");
+    return messageSource;
   }
 
   @Bean

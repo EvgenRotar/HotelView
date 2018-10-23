@@ -35,11 +35,12 @@ public class Connector {
       return response.getBody();
     } catch (HttpClientErrorException | ResourceAccessException e) {
       e.printStackTrace();
+      throw e;
     }
-    return null;
   }
 
-  public <T> T sendRequestWithoutBody(HttpHeaders headers, String url, HttpMethod method, Class<T> responseClazz) {
+  public <T> T sendRequestWithoutBody(HttpHeaders headers, String url, HttpMethod method, Class<T> responseClazz)
+      throws HttpClientErrorException, ResourceAccessException {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<Object> fullRequest = new HttpEntity<>(headers);
     try {
@@ -48,8 +49,7 @@ public class Connector {
       return response.getBody();
     } catch (HttpClientErrorException | ResourceAccessException e) {
       e.printStackTrace();
+      throw e;
     }
-    return null;
   }
-
 }

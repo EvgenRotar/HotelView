@@ -12,6 +12,7 @@
     <module>dao</module>
     <module>controller</module>
     <module>dao-api</module>
+    <module>service</module>
   </modules>
 
   <properties>
@@ -55,6 +56,12 @@
       <dependency>
         <groupId>com.evgen</groupId>
         <artifactId>controller</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.evgen</groupId>
+        <artifactId>dao-api</artifactId>
         <version>${project.version}</version>
       </dependency>
 
