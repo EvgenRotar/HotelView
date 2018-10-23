@@ -21,10 +21,10 @@ public class HotelController {
   @GetMapping("/")
   public String index(Model model) {
 
-    Guest hotels = hotelDao.getGuestByName("sergei");
-    System.out.println(hotels);
+    Guest sergei = hotelDao.getGuestByName("sergei");
 
-    model.addAttribute("message", "Hello World!");
+    model.addAttribute("name", sergei.getName());
+    model.addAttribute("reservations", sergei.getReservations());
 
     return "index";
   }
