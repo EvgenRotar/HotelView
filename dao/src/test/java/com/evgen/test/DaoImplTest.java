@@ -6,6 +6,7 @@ import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.evgen.Guest;
 import com.evgen.Hotel;
@@ -81,8 +83,9 @@ public class DaoImplTest {
     Hotel hotel = objectMapper.readValue(getClass().getResourceAsStream(HOTEL), Hotel.class);
     ArrayList<Hotel> hotels = new ArrayList<>();
     hotels.add(hotel);
+    URI uri = UriComponentsBuilder.fromUriString(getHotelsUrl).build().toUri();
 
-    expect(connectorMock.sendRequestWithoutBody(new HttpHeaders(), getHotelsUrl, HttpMethod.GET, ArrayList.class))
+    expect(connectorMock.sendRequestWithoutBody(new HttpHeaders(), uri, HttpMethod.GET, ArrayList.class))
         .andReturn(hotels);
     replay(connectorMock);
 
@@ -96,8 +99,9 @@ public class DaoImplTest {
     Hotel hotel = objectMapper.readValue(getClass().getResourceAsStream(HOTEL), Hotel.class);
     ArrayList<Hotel> hotels = new ArrayList<>();
     hotels.add(hotel);
+    URI uri = UriComponentsBuilder.fromUriString(getHotelsUrl).queryParam("hotelName", "Abc").build().toUri();
 
-    expect(connectorMock.sendRequestWithoutBody(new HttpHeaders(), getHotelByNameUrl + "Abc", HttpMethod.GET, ArrayList.class))
+    expect(connectorMock.sendRequestWithoutBody(new HttpHeaders(), uri, HttpMethod.GET, ArrayList.class))
         .andReturn(hotels);
     replay(connectorMock);
 
@@ -109,8 +113,9 @@ public class DaoImplTest {
     LOGGER.debug("test: get guest by name");
 
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
+    URI uri = UriComponentsBuilder.fromUriString(getGuestByNameUrl).queryParam("name", "sergei").build().toUri();
 
-    expect(connectorMock.sendRequestWithoutBody(new HttpHeaders(), getGuestByNameUrl + "sergei", HttpMethod.GET, Guest.class))
+    expect(connectorMock.sendRequestWithoutBody(new HttpHeaders(), uri, HttpMethod.GET, Guest.class))
         .andReturn(guest);
     replay(connectorMock);
 
@@ -126,8 +131,9 @@ public class DaoImplTest {
     reservations.add(reservation);
     HttpHeaders headers = new HttpHeaders();
     headers.add("guestId", "1");
+    URI uri = UriComponentsBuilder.fromUriString(getReservationsUrl).build().toUri();
 
-    expect(connectorMock.sendRequestWithoutBody(headers, getReservationsUrl, HttpMethod.GET, ArrayList.class))
+    expect(connectorMock.sendRequestWithoutBody(headers, uri, HttpMethod.GET, ArrayList.class))
         .andReturn(reservations);
     replay(connectorMock);
 
@@ -141,8 +147,9 @@ public class DaoImplTest {
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
     HttpHeaders headers = new HttpHeaders();
     headers.add("guestId", "5bc449c09ddbcd660ac58f07");
+    URI uri = UriComponentsBuilder.fromUriString(deleteReservationUrl).buildAndExpand("2").toUri();
 
-    expect(connectorMock.sendRequestWithoutBody(headers, deleteReservationUrl + "2", HttpMethod.DELETE, Guest.class))
+    expect(connectorMock.sendRequestWithoutBody(headers, uri, HttpMethod.DELETE, Guest.class))
         .andReturn(guest);
     replay(connectorMock);
 

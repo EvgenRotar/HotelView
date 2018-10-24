@@ -1,5 +1,7 @@
 package com.evgen.connector;
 
+import java.net.URI;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class Connector {
     this.restTemplate = restTemplate;
   }
 
-  public <T> T sendRequestWithBody(Object request, HttpHeaders headers, String url, HttpMethod method,
+  public <T> T sendRequestWithBody(Object request, HttpHeaders headers, URI url, HttpMethod method,
       Class<T> responseClazz) {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<Object> fullRequest = new HttpEntity<>(request, headers);
@@ -39,7 +41,7 @@ public class Connector {
     }
   }
 
-  public <T> T sendRequestWithoutBody(HttpHeaders headers, String url, HttpMethod method, Class<T> responseClazz)
+  public <T> T sendRequestWithoutBody(HttpHeaders headers, URI url, HttpMethod method, Class<T> responseClazz)
       throws HttpClientErrorException, ResourceAccessException {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<Object> fullRequest = new HttpEntity<>(headers);

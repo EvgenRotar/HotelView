@@ -12,7 +12,6 @@
     <module>dao</module>
     <module>controller</module>
     <module>dao-api</module>
-    <module>service</module>
   </modules>
 
   <properties>
