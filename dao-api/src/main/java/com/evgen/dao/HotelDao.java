@@ -3,6 +3,7 @@ package com.evgen.dao;
 import java.util.List;
 
 import com.evgen.Guest;
+import com.evgen.wrapper.CreateReservation;
 
 public interface HotelDao {
 
@@ -15,5 +16,7 @@ public interface HotelDao {
   List getReservations(String guestId);
 
   Guest deleteReservation(String guestId, String reservationId);
+
+  Guest createReservation(CreateReservation createReservation);
 
 }

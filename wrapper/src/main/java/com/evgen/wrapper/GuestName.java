@@ -7,6 +7,7 @@ public class GuestName {
 
   private String name;
 
+
   public GuestName(){
   }
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Hotel Reservation</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<div>
+  <h3 th:text="${createReservation.hotelName}"></h3>
+</div>
+<form action="#" th:action="@{/create}" th:object="${createReservation}" method="post">
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Select Apartment</label>
+    <select class="form-control" id="exampleFormControlSelect1" th:field="*{apartmentNumber}">
+      <div th:each="hotel: ${hotels}">
+        <div th:each="apartment: ${hotel.apartments}">
+          <option th:text="${apartment.apartmentNumber}" th:value="${apartment.apartmentNumber}"></option>
+        </div>
+      </div>
+    </select>
+  </div>
+
+  <fieldset>
+    <legend>Choose trip dates</legend>
+    <div>
+      <label for="start">Start</label>
+      <input type="date" id="start" name="trip"
+             value="2018-07-22"
+             min="2018-01-01" max="2022-12-31" th:field="*{startReservationData}"/>
+    </div>
+    <div>
+      <label for="end">End</label>
+      <input type="date" id="end" name="trip"
+             value="2018-07-29"
+             min="2018-01-01" max="2022-12-31" th:field="*{endReservationData}"/>
+    </div>
+  </fieldset>
+
+  <input type="hidden" th:value="${createReservation.guestId}" id="guestId" name="guestId" class="form-control">
+  <input type="hidden" th:value="${createReservation.hotelName}" id="hotelName" name="hotelName" class="form-control">
+  <button type="submit" class="btn btn-danger">Submit</button>
+</form>
+
+</body>

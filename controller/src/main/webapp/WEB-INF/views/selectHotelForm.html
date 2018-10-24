@@ -12,5 +12,17 @@
 </head>
 
 <body>
+<form action="#" th:action="@{/selectApartment}" th:object="${createReservation}" method="post">
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Select Hotel</label>
+    <select class="form-control" id="exampleFormControlSelect1" th:field="*{hotelName}">
+      <div th:each="hotel: ${hotels}">
+        <option th:text="${hotel.hotelName}" th:value="${hotel.hotelName}"></option>
+      </div>
+    </select>
+  </div>
+  <input type="hidden" th:value="${createReservation.guestId}" id="guestId" name="guestId" class="form-control">
+  <button type="submit" class="btn btn-danger">Submit</button>
+</form>
 
 </body>

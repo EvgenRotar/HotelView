@@ -12,6 +12,7 @@
     <module>dao</module>
     <module>controller</module>
     <module>dao-api</module>
+    <module>wrapper</module>
   </modules>
 
   <properties>
@@ -35,6 +36,12 @@
     <dependencies>
 
       <dependency>
+        <groupId>com.evgen</groupId>
+        <artifactId>wrapper</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.thymeleaf</groupId>
         <artifactId>thymeleaf-spring5</artifactId>
         <version>${thymeleaf.version}</version>
@@ -47,7 +54,7 @@
       </dependency>
 
       <dependency>
-        <groupId>com.evgen</groupId>
+        <groupId>com.com.evgen</groupId>
         <artifactId>model</artifactId>
         <version>${project.version}</version>
       </dependency>

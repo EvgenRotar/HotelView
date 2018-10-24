@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.evgen.Guest;
 import com.evgen.connector.Connector;
+import com.evgen.wrapper.CreateReservation;
 
 @Component
 public class HotelDaoImpl implements HotelDao {
@@ -30,6 +31,9 @@ public class HotelDaoImpl implements HotelDao {
 
   @Value("${url.deleteReservation}")
   private String deleteReservationUrl;
+
+  @Value("${url.createReservation}")
+  private String createReservationUrl;
 
   @Autowired
   public HotelDaoImpl(Connector connector) {
@@ -73,5 +77,12 @@ public class HotelDaoImpl implements HotelDao {
     headers.add("guestId", guestId);
 
     return connector.sendRequestWithoutBody(headers, uri, HttpMethod.DELETE, Guest.class);
+  }
+
+  @Override
+  public Guest createReservation(CreateReservation createReservation) {
+    URI uri = UriComponentsBuilder.fromUriString(createReservationUrl).build().toUri();
+
+    return connector.sendRequestWithBody(createReservation, new HttpHeaders(), uri, HttpMethod.POST, Guest.class);
   }
 }

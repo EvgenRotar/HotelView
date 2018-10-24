@@ -21,6 +21,12 @@
 
     <dependency>
       <groupId>com.evgen</groupId>
+      <artifactId>dao-api</artifactId>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.com.evgen</groupId>
       <artifactId>model</artifactId>
     </dependency>
 

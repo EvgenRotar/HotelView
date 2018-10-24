@@ -13,10 +13,12 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.evgen.Apartment;
 import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.dao.HotelDao;
 import com.evgen.wrapper.GuestName;
+import com.evgen.wrapper.CreateReservation;
 import com.evgen.wrapper.ReservationId;
 
 @Controller
@@ -46,15 +48,34 @@ public class HotelController {
     }
   }
 
-  @GetMapping("/reservationForm")
-  public String createReservationForm(Model model) {
+  @GetMapping("/selectHotel")
+  public String selectHotelForm(@ModelAttribute CreateReservation createReservation, Model model) {
     try {
       List<Hotel> hotels = hotelDao.getHotels();
       model.addAttribute("hotels", hotels);
-      return "createReservationForm";
+      return "selectHotelForm";
     } catch (HttpClientErrorException | ResourceAccessException e) {
       return "error";
     }
+  }
+
+  @PostMapping("/selectApartment")
+  public String selectApartmentForm(@ModelAttribute CreateReservation createReservation, Model model) {
+    try {
+      List hotels = hotelDao.getHotelByName(createReservation.getHotelName());
+      model.addAttribute("hotels", hotels);
+      return "selectApartmentForm";
+    } catch (HttpClientErrorException | ResourceAccessException e) {
+      return "error";
+    }
+  }
+
+  @PostMapping("/create")
+  public RedirectView createReservation(CreateReservation createReservation, RedirectAttributes attributes){
+    Guest guest = hotelDao.createReservation(createReservation);
+
+    attributes.addAttribute("name", guest.getName());
+    return new RedirectView("/guests");
   }
 
   @PostMapping("/edit")

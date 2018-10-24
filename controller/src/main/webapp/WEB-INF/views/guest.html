@@ -53,7 +53,8 @@
     </tr>
     </tbody>
   </table>
-  <form action="#" th:action="@{/reservationForm}" method="get">
+  <form action="#" th:action="@{/selectHotel}" th:object="${createReservation}" method="get">
+    <input type="hidden" th:value="${guest.guestId}" id="guestId" name="guestId" class="form-control">
     <button type="submit" class="btn btn-primary btn-lg">Create reservation</button>
   </form>
 </div>
