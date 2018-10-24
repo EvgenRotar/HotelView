@@ -37,9 +37,12 @@
       <td th:text="${reservation.startReservationDay}"></td>
       <td th:text="${reservation.endReservationDay}"></td>
       <td>
-        <form action="#" th:action="@{/edit}" th:object="${reservationId}" method="post">
-          <input type="hidden" th:value="${reservation.reservationId}" id="id1" name="id" class="form-control">
+        <form action="#" th:action="@{/selectHotelEdit}" th:object="${editReservation}" method="post">
+          <input type="hidden" th:value="${reservation.reservationId}" id="reservationId" name="reservationId" class="form-control">
           <input type="hidden" th:value="${guest.guestId}" id="guestId1" name="guestId" class="form-control">
+          <input type="hidden" th:value="${reservation.hotel.hotelName}" id="hotelName" name="hotelName" class="form-control">
+          <input type="hidden" th:value="${reservation.apartmentNumber}" id="apartmentNumber" name="apartmentNumber" class="form-control">
+
           <button type="submit" class="btn btn-primary">Edit</button>
         </form>
       </td>
@@ -53,7 +56,7 @@
     </tr>
     </tbody>
   </table>
-  <form action="#" th:action="@{/selectHotel}" th:object="${createReservation}" method="get">
+  <form action="#" th:action="@{/selectHotel}" th:object="${createReservation}" method="post">
     <input type="hidden" th:value="${guest.guestId}" id="guestId" name="guestId" class="form-control">
     <button type="submit" class="btn btn-primary btn-lg">Create reservation</button>
   </form>

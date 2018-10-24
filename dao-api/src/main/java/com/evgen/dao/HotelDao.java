@@ -19,4 +19,6 @@ public interface HotelDao {
 
   Guest createReservation(CreateReservation createReservation);
 
+  Guest editReservation(CreateReservation createReservation, String reservationId);
+
 }

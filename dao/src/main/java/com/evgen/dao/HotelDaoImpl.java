@@ -85,4 +85,12 @@ public class HotelDaoImpl implements HotelDao {
 
     return connector.sendRequestWithBody(createReservation, new HttpHeaders(), uri, HttpMethod.POST, Guest.class);
   }
+
+  @Override
+  public Guest editReservation(CreateReservation createReservation, String reservationId) {
+    URI uri = UriComponentsBuilder.fromUriString(deleteReservationUrl).buildAndExpand(reservationId).toUri();
+
+    return connector.sendRequestWithBody(createReservation, new HttpHeaders(), uri, HttpMethod.PUT, Guest.class);
+  }
+
 }

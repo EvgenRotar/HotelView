@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Hotel Reservation</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<form action="#" th:action="@{/selectApartmentEdit}" th:object="${editReservation}" method="post">
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Select Hotel</label>
+    <select class="form-control" id="exampleFormControlSelect1" th:field="*{hotelName}" th:value="${hotelName}">
+      <div th:each="hotel: ${hotels}">
+        <option th:text="${hotel.hotelName}" th:value="${hotel.hotelName}"></option>
+      </div>
+    </select>
+  </div>
+  <input type="hidden" th:value="${editReservation.apartmentNumber}" id="apartmentNumber" name="apartmentNumber" class="form-control">
+  <input type="hidden" th:value="${editReservation.reservationId}" id="reservationId" name="reservationId" class="form-control">
+  <input type="hidden" th:value="${editReservation.guestId}" id="guestId" name="guestId" class="form-control">
+  <button type="submit" class="btn btn-danger">Submit</button>
+</form>
+
+</body>
