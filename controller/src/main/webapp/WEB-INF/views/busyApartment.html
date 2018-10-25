@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <title>Hotel Reservation</title>
   <meta charset="utf-8"/>
@@ -14,16 +15,16 @@
   <div class="row">
     <div class="col-md-12">
       <div class="error-template">
-        <h1>
-          Oops!</h1>
-        <h2>
-          404 Not Found</h2>
+        <h1>Oops!</h1>
         <div class="error-details">
-          Sorry, Requested page not found!
+          Sorry, these apartments are reserved!
         </div>
         <div class="error-actions">
-          <a href="/" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
-            Take Me Home </a>
+          <form action="#" th:action="@{/selectHotel}" th:object="${createReservation}" method="post">
+            <input type="hidden" th:value="${createReservation.guestId}" id="guestId" name="guestId"
+                   class="form-control">
+            <button type="submit" class="btn btn-primary btn-lg">Create other reservation</button>
+          </form>
         </div>
       </div>
     </div>

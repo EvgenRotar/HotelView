@@ -38,11 +38,17 @@
       <td th:text="${reservation.endReservationDay}"></td>
       <td>
         <form action="#" th:action="@{/selectHotelEdit}" th:object="${editReservation}" method="post">
-          <input type="hidden" th:value="${reservation.reservationId}" id="reservationId" name="reservationId" class="form-control">
+          <input type="hidden" th:value="${reservation.reservationId}" id="reservationId" name="reservationId"
+                 class="form-control">
           <input type="hidden" th:value="${guest.guestId}" id="guestId1" name="guestId" class="form-control">
-          <input type="hidden" th:value="${reservation.hotel.hotelName}" id="hotelName" name="hotelName" class="form-control">
-          <input type="hidden" th:value="${reservation.apartmentNumber}" id="apartmentNumber" name="apartmentNumber" class="form-control">
-
+          <input type="hidden" th:value="${reservation.hotel.hotelName}" id="hotelName" name="hotelName"
+                 class="form-control">
+          <input type="hidden" th:value="${reservation.apartmentNumber}" id="apartmentNumber" name="apartmentNumber"
+                 class="form-control">
+          <input type="hidden" th:value="${reservation.startReservationDay}" id="startReservationData"
+                 name="startReservationData" class="form-control">
+          <input type="hidden" th:value="${reservation.endReservationDay}" id="endReservationData"
+                 name="endReservationData" class="form-control">
           <button type="submit" class="btn btn-primary">Edit</button>
         </form>
       </td>

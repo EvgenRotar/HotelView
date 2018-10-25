@@ -21,10 +21,16 @@
       </div>
     </select>
   </div>
-  <input type="hidden" th:value="${editReservation.apartmentNumber}" id="apartmentNumber" name="apartmentNumber" class="form-control">
-  <input type="hidden" th:value="${editReservation.reservationId}" id="reservationId" name="reservationId" class="form-control">
+  <input type="hidden" th:value="${editReservation.apartmentNumber}" id="apartmentNumber" name="apartmentNumber"
+         class="form-control">
+  <input type="hidden" th:value="${editReservation.reservationId}" id="reservationId" name="reservationId"
+         class="form-control">
   <input type="hidden" th:value="${editReservation.guestId}" id="guestId" name="guestId" class="form-control">
+  <input type="hidden" th:value="${editReservation.startReservationData}" id="startReservationData"
+         name="startReservationData" class="form-control">
+  <input type="hidden" th:value="${editReservation.endReservationData}" id="endReservationData"
+         name="endReservationData"
+         class="form-control">
   <button type="submit" class="btn btn-danger">Submit</button>
 </form>
-
 </body>

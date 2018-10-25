@@ -15,6 +15,10 @@ public class CreateReservation {
 
   private String endReservationData;
 
+  public static Builder builder() {
+    return new Builder();
+  }
+
   public String getHotelName() {
     return hotelName;
   }
@@ -53,5 +57,43 @@ public class CreateReservation {
 
   public void setEndReservationData(String endReservationData) {
     this.endReservationData = endReservationData;
+  }
+
+  public static class Builder {
+
+    private CreateReservation instance;
+
+    Builder() {
+      this.instance = new CreateReservation();
+    }
+
+    public Builder setGuestId(String guestId) {
+      instance.setGuestId(guestId);
+      return this;
+    }
+
+    public Builder setApartmentNumber(String apartmentNumber) {
+      instance.setApartmentNumber(apartmentNumber);
+      return this;
+    }
+
+    public Builder setHotelName(String hotelName) {
+      instance.setHotelName(hotelName);
+      return this;
+    }
+
+    public Builder setStartReservationData(String startReservationData) {
+      instance.setStartReservationData(startReservationData);
+      return this;
+    }
+
+    public Builder setEndReservationData(String endReservationData) {
+      instance.setEndReservationData(endReservationData);
+      return this;
+    }
+
+    public CreateReservation build() {
+      return instance;
+    }
   }
 }

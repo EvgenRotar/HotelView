@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.evgen.Guest;
-import com.evgen.Hotel;
+import com.evgen.builder.ReservationRequestBuilder;
 import com.evgen.dao.HotelDao;
 import com.evgen.wrapper.CreateReservation;
 import com.evgen.wrapper.EditReservation;
@@ -74,10 +75,21 @@ public class HotelController {
 
   @PostMapping("/create")
   public RedirectView createReservation(CreateReservation createReservation, RedirectAttributes attributes) {
-    Guest guest = hotelDao.createReservation(createReservation);
-    attributes.addAttribute("name", guest.getName());
+    try {
+      Guest guest = hotelDao.createReservation(createReservation);
+      attributes.addAttribute("name", guest.getName());
 
-    return new RedirectView("/guests");
+      return new RedirectView("/guests");
+    } catch (HttpServerErrorException e) {
+      attributes.addFlashAttribute(createReservation);
+      return new RedirectView("/error");
+    }
+  }
+
+  @GetMapping("/error")
+  public String errorPage(CreateReservation createReservation, Model model) {
+    model.addAttribute(createReservation);
+    return "busyApartment";
   }
 
   @PostMapping("/selectHotelEdit")
@@ -107,15 +119,8 @@ public class HotelController {
   @PostMapping("/edit")
   public RedirectView editReservationForm(EditReservation editReservation,
       RedirectAttributes attributes) {
-    CreateReservation createReservation = new CreateReservation();
-
-    createReservation.setApartmentNumber(editReservation.getApartmentNumber());
-    createReservation.setEndReservationData(editReservation.getEndReservationData());
-    createReservation.setGuestId(editReservation.getGuestId());
-    createReservation.setHotelName(editReservation.getHotelName());
-    createReservation.setStartReservationData(editReservation.getStartReservationData());
-
-    Guest guest = hotelDao.editReservation(createReservation, editReservation.getReservationId());
+    CreateReservation request = ReservationRequestBuilder.build(editReservation);
+    Guest guest = hotelDao.editReservation(request, editReservation.getReservationId());
     attributes.addAttribute("name", guest.getName());
 
     return new RedirectView("/guests");
