@@ -30,6 +30,7 @@ import com.evgen.Reservation;
 import com.evgen.config.DaoImplTestConfig;
 import com.evgen.connector.Connector;
 import com.evgen.dao.HotelDao;
+import com.evgen.wrapper.CreateReservation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,6 +42,7 @@ public class DaoImplTest {
   private static final String HOTEL = "/Hotel.json";
   private static final String GUEST = "/Guest-with-reservations.json";
   private static final String RESERVATIONS = "/Reservations.json";
+  private static final String RESERVATION_REQUEST = "/Reservation-request.json";
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -65,6 +67,9 @@ public class DaoImplTest {
 
   @Value("${url.deleteReservation}")
   private String deleteReservationUrl;
+
+  @Value("${url.createReservation}")
+  private String createReservationUrl;
 
   @After
   public void clean() {
@@ -153,6 +158,45 @@ public class DaoImplTest {
         .andReturn(guest);
     replay(connectorMock);
 
-    Assert.assertEquals(hotelDao.deleteReservation("5bc449c09ddbcd660ac58f07", "2").getGuestId(), "5bc449c09ddbcd660ac58f07");
+    Guest guestReturn = hotelDao.deleteReservation("5bc449c09ddbcd660ac58f07", "2");
+
+    Assert.assertEquals(guestReturn.getGuestId(), "5bc449c09ddbcd660ac58f07");
+  }
+
+  @Test
+  public void createReservation() throws IOException {
+    LOGGER.debug("test: create reservation");
+
+    CreateReservation createReservation = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATION_REQUEST), CreateReservation.class);
+    Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
+    URI uri = UriComponentsBuilder.fromUriString(createReservationUrl).build().toUri();
+
+    expect(connectorMock.sendRequestWithBody(createReservation, new HttpHeaders(), uri, HttpMethod.POST, Guest.class))
+        .andReturn(guest);
+    replay(connectorMock);
+
+    Guest guestReturn = hotelDao.createReservation(createReservation);
+
+    Assert.assertEquals(guestReturn.getReservations().size(), 1);
+  }
+
+  @Test
+  public void editReservation() throws IOException {
+    LOGGER.debug("test: edit reservation");
+
+    CreateReservation createReservation = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATION_REQUEST), CreateReservation.class);
+    Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
+    URI uri = UriComponentsBuilder.fromUriString(deleteReservationUrl).buildAndExpand("5bc7340b677aa44e986d19db")
+        .toUri();
+
+    expect(connectorMock.sendRequestWithBody(createReservation, new HttpHeaders(), uri, HttpMethod.PUT, Guest.class))
+        .andReturn(guest);
+    replay(connectorMock);
+
+    Guest guestReturn = hotelDao.editReservation(createReservation, "5bc7340b677aa44e986d19db");
+
+    Assert.assertEquals(guestReturn.getReservations().size(), 1);
   }
 }

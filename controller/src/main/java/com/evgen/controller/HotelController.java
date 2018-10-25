@@ -83,7 +83,7 @@ public class HotelController {
     } catch (HttpServerErrorException e) {
       attributes.addFlashAttribute(createReservation);
 
-      return new RedirectView("/error");
+      return new RedirectView("/errorCreate");
     }
   }
 
