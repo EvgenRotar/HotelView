@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Hotel Reservation</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="error-template">
+        <h1>Oops!</h1>
+        <div class="error-details">
+          Sorry, these apartments are reserved!
+        </div>
+        <div class="error-actions">
+          <form action="#" th:action="@{/selectHotelEdit}" th:object="${editReservation}" method="post">
+            <input type="hidden" th:value="${editReservation.reservationId}" id="reservationId" name="reservationId"
+                   class="form-control">
+            <input type="hidden" th:value="${editReservation.guestId}" id="guestId1" name="guestId" class="form-control">
+            <input type="hidden" th:value="${editReservation.hotelName}" id="hotelName" name="hotelName"
+                   class="form-control">
+            <input type="hidden" th:value="${editReservation.apartmentNumber}" id="apartmentNumber" name="apartmentNumber"
+                   class="form-control">
+            <input type="hidden" th:value="${editReservation.startReservationData}" id="startReservationData"
+                   name="startReservationData" class="form-control">
+            <input type="hidden" th:value="${editReservation.endReservationData}" id="endReservationData"
+                   name="endReservationData" class="form-control">
+            <button type="submit" class="btn btn-primary btn-lg">Repeat</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>

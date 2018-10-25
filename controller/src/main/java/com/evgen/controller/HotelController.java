@@ -44,7 +44,7 @@ public class HotelController {
       model.addAttribute(guest);
 
       return "guest";
-    } catch (HttpClientErrorException | ResourceAccessException e) {
+    } catch (HttpClientErrorException | ResourceAccessException | IllegalArgumentException e) {
       return "error";
     }
   }
@@ -82,13 +82,15 @@ public class HotelController {
       return new RedirectView("/guests");
     } catch (HttpServerErrorException e) {
       attributes.addFlashAttribute(createReservation);
+
       return new RedirectView("/error");
     }
   }
 
-  @GetMapping("/error")
+  @GetMapping("/errorCreate")
   public String errorPage(CreateReservation createReservation, Model model) {
     model.addAttribute(createReservation);
+
     return "busyApartment";
   }
 
@@ -119,11 +121,24 @@ public class HotelController {
   @PostMapping("/edit")
   public RedirectView editReservationForm(EditReservation editReservation,
       RedirectAttributes attributes) {
-    CreateReservation request = ReservationRequestBuilder.build(editReservation);
-    Guest guest = hotelDao.editReservation(request, editReservation.getReservationId());
-    attributes.addAttribute("name", guest.getName());
+    try {
+      CreateReservation request = ReservationRequestBuilder.build(editReservation);
+      Guest guest = hotelDao.editReservation(request, editReservation.getReservationId());
+      attributes.addAttribute("name", guest.getName());
 
-    return new RedirectView("/guests");
+      return new RedirectView("/guests");
+    } catch (HttpServerErrorException e){
+      attributes.addFlashAttribute(editReservation);
+
+      return new RedirectView("/errorEdit");
+    }
+  }
+
+  @GetMapping("/errorEdit")
+  public String errorPageEdit(EditReservation editReservation, Model model) {
+    model.addAttribute(editReservation);
+
+    return "busyApartmentEdit";
   }
 
   @PostMapping("/delete")
