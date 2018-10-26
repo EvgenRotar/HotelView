@@ -49,7 +49,7 @@ public class HotelController {
     }
   }
 
-  @PostMapping("/selectHotel")
+  @PostMapping("/hotel")
   public String selectHotelForm(@ModelAttribute CreateReservation createReservation, Model model) {
     try {
       List hotels = hotelDao.getHotels();
@@ -61,7 +61,7 @@ public class HotelController {
     }
   }
 
-  @PostMapping("/selectApartment")
+  @PostMapping("/apartment")
   public String selectApartmentForm(@ModelAttribute CreateReservation createReservation, Model model) {
     try {
       List hotels = hotelDao.getHotelByName(createReservation.getHotelName());
@@ -94,7 +94,7 @@ public class HotelController {
     return "busyApartment";
   }
 
-  @PostMapping("/selectHotelEdit")
+  @PostMapping("/hotelEdit")
   public String selectHotelEditForm(@ModelAttribute EditReservation editReservation, Model model) {
     try {
       List hotels = hotelDao.getHotels();
@@ -106,7 +106,7 @@ public class HotelController {
     }
   }
 
-  @PostMapping("/selectApartmentEdit")
+  @PostMapping("/apartmentEdit")
   public String selectApartmentEditForm(@ModelAttribute EditReservation editReservation, Model model) {
     try {
       List hotels = hotelDao.getHotelByName(editReservation.getHotelName());

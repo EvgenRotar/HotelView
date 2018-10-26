@@ -37,7 +37,7 @@
       <td th:text="${reservation.startReservationDay}"></td>
       <td th:text="${reservation.endReservationDay}"></td>
       <td>
-        <form action="#" th:action="@{/selectHotelEdit}" th:object="${editReservation}" method="post">
+        <form action="#" th:action="@{/hotelEdit}" th:object="${editReservation}" method="post">
           <input type="hidden" th:value="${reservation.reservationId}" id="reservationId" name="reservationId"
                  class="form-control">
           <input type="hidden" th:value="${guest.guestId}" id="guestId1" name="guestId" class="form-control">
@@ -62,7 +62,7 @@
     </tr>
     </tbody>
   </table>
-  <form action="#" th:action="@{/selectHotel}" th:object="${createReservation}" method="post">
+  <form action="#" th:action="@{/hotel}" th:object="${createReservation}" method="post">
     <input type="hidden" th:value="${guest.guestId}" id="guestId" name="guestId" class="form-control">
     <button type="submit" class="btn btn-primary btn-lg">Create reservation</button>
   </form>

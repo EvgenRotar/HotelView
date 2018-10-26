@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<form action="#" th:action="@{/selectApartmentEdit}" th:object="${editReservation}" method="post">
+<form action="#" th:action="@{/apartmentEdit}" th:object="${editReservation}" method="post">
   <div class="form-group">
     <label for="exampleFormControlSelect1">Select Hotel</label>
     <select class="form-control" id="exampleFormControlSelect1" th:field="*{hotelName}" th:value="${hotelName}">
