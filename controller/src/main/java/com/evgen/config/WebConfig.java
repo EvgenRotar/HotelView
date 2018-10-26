@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
@@ -25,8 +26,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.evgen.*")
+@ComponentScan(basePackages = "com.evgen")
 @PropertySource("classpath:url.properties")
+@Import(SecurityConfig.class)
 public class WebConfig implements WebMvcConfigurer {
 
   private final ApplicationContext applicationContext;

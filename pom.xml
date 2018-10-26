@@ -13,6 +13,7 @@
     <module>controller</module>
     <module>dao-api</module>
     <module>wrapper</module>
+    <module>service</module>
   </modules>
 
   <properties>
@@ -30,10 +31,17 @@
     <validation-api.version>2.0.0.Final</validation-api.version>
     <mongodb.version>2.1.0.RELEASE</mongodb.version>
     <httpclient.verison>4.5.2</httpclient.verison>
+    <spring-security.version>5.0.6.RELEASE</spring-security.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+
+      <dependency>
+        <groupId>com.evgen</groupId>
+        <artifactId>service</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>com.evgen</groupId>
@@ -50,6 +58,12 @@
       <dependency>
         <groupId>org.thymeleaf</groupId>
         <artifactId>thymeleaf</artifactId>
+        <version>${thymeleaf.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.thymeleaf.extras</groupId>
+        <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         <version>${thymeleaf.version}</version>
       </dependency>
 
@@ -194,6 +208,25 @@
         <artifactId>httpclient</artifactId>
         <version>${httpclient.verison}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 

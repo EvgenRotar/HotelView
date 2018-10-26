@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
@@ -32,7 +33,7 @@ public class HotelController {
     this.hotelDao = hotelDao;
   }
 
-  @GetMapping("/")
+  @RequestMapping("/")
   public String index(@ModelAttribute GuestName guestName) {
     return "index";
   }
@@ -127,7 +128,7 @@ public class HotelController {
       attributes.addAttribute("name", guest.getName());
 
       return new RedirectView("/guests");
-    } catch (HttpServerErrorException e){
+    } catch (HttpServerErrorException e) {
       attributes.addFlashAttribute(editReservation);
 
       return new RedirectView("/errorEdit");
