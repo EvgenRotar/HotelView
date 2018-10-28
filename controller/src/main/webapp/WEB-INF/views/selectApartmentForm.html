@@ -13,9 +13,9 @@
 
 <body>
 <div>
-  <h3 th:text="${createReservation.hotelName}"></h3>
+  <h3 th:text="${reservationRequest.hotelName}"></h3>
 </div>
-<form action="#" th:action="@{/create}" th:object="${createReservation}" method="post">
+<form action="#" th:action="@{/create}" th:object="${reservationRequest}" method="post">
   <div class="form-group">
     <label for="exampleFormControlSelect1">Select Apartment</label>
     <select class="form-control" id="exampleFormControlSelect1" th:field="*{apartmentNumber}">
@@ -43,8 +43,8 @@
     </div>
   </fieldset>
 
-  <input type="hidden" th:value="${createReservation.guestId}" id="guestId" name="guestId" class="form-control">
-  <input type="hidden" th:value="${createReservation.hotelName}" id="hotelName" name="hotelName" class="form-control">
+  <input type="hidden" th:value="${reservationRequest.guestId}" id="guestId" name="guestId" class="form-control">
+  <input type="hidden" th:value="${reservationRequest.hotelName}" id="hotelName" name="hotelName" class="form-control">
   <button type="submit" class="btn btn-danger">Submit</button>
 </form>
 

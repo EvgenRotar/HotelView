@@ -17,22 +17,22 @@ import com.evgen.dao.HotelDao;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+  private final HotelDao hotelDao;
+
   @Autowired
-  private HotelDao hotelDao;
+  public UserDetailsServiceImpl(HotelDao hotelDao) {
+    this.hotelDao = hotelDao;
+  }
 
   @Override
   public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
     Guest guest = hotelDao.getGuestByName(name);
-    Set<GrantedAuthority> roles = new HashSet();
-    roles.add(new SimpleGrantedAuthority("Admin"));
+    Set<GrantedAuthority> roles = new HashSet<>();
+    roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
-
-    UserDetails userDetails =
-        new org.springframework.security.core.userdetails.User(guest.getName(),
-            "111",
-            roles);
-
-    return userDetails;
+    return new org.springframework.security.core.userdetails.User(
+        guest.getName(),
+        guest.getPassword(),
+        roles);
   }
-
 }

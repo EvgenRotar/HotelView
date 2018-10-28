@@ -1,11 +1,12 @@
 package com.evgen.builder;
 
-import com.evgen.wrapper.CreateReservation;
+import com.evgen.ReservationRequest;
 import com.evgen.wrapper.EditReservation;
 
 public class ReservationRequestBuilder {
-  public static CreateReservation build(EditReservation editReservation) {
-    return CreateReservation.builder()
+
+  public static ReservationRequest build(EditReservation editReservation) {
+    return ReservationRequest.builder()
         .setGuestId(editReservation.getGuestId())
         .setHotelName(editReservation.getHotelName())
         .setApartmentNumber(editReservation.getApartmentNumber())

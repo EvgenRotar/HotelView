@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.evgen.Guest;
+import com.evgen.ReservationRequest;
 import com.evgen.connector.Connector;
-import com.evgen.wrapper.CreateReservation;
 
 @Component
 public class HotelDaoImpl implements HotelDao {
@@ -80,17 +80,17 @@ public class HotelDaoImpl implements HotelDao {
   }
 
   @Override
-  public Guest createReservation(CreateReservation createReservation) {
+  public Guest createReservation(ReservationRequest reservationRequest) {
     URI uri = UriComponentsBuilder.fromUriString(createReservationUrl).build().toUri();
 
-    return connector.sendRequestWithBody(createReservation, new HttpHeaders(), uri, HttpMethod.POST, Guest.class);
+    return connector.sendRequestWithBody(reservationRequest, new HttpHeaders(), uri, HttpMethod.POST, Guest.class);
   }
 
   @Override
-  public Guest editReservation(CreateReservation createReservation, String reservationId) {
+  public Guest editReservation(ReservationRequest reservationRequest, String reservationId) {
     URI uri = UriComponentsBuilder.fromUriString(deleteReservationUrl).buildAndExpand(reservationId).toUri();
 
-    return connector.sendRequestWithBody(createReservation, new HttpHeaders(), uri, HttpMethod.PUT, Guest.class);
+    return connector.sendRequestWithBody(reservationRequest, new HttpHeaders(), uri, HttpMethod.PUT, Guest.class);
   }
 
 }

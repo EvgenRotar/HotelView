@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReservationId {
+
   private String id;
 
   private String guestId;

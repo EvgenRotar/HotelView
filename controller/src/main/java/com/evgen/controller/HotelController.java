@@ -3,6 +3,8 @@ package com.evgen.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +18,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.evgen.Guest;
+import com.evgen.ReservationRequest;
 import com.evgen.builder.ReservationRequestBuilder;
 import com.evgen.dao.HotelDao;
-import com.evgen.wrapper.CreateReservation;
 import com.evgen.wrapper.EditReservation;
-import com.evgen.wrapper.GuestName;
 import com.evgen.wrapper.ReservationId;
 
 @Controller
@@ -34,14 +35,15 @@ public class HotelController {
   }
 
   @RequestMapping("/")
-  public String index(@ModelAttribute GuestName guestName) {
-    return "index";
+  public RedirectView index() {
+    return new RedirectView("/guests");
   }
 
-  @GetMapping("/guests")
-  public String retrieveGuest(@ModelAttribute ReservationId reservationId, GuestName guestName, Model model) {
+  @RequestMapping("/guests")
+  public String retrieveGuest(@ModelAttribute ReservationId reservationId, Model model) {
     try {
-      Guest guest = hotelDao.getGuestByName(guestName.getName());
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      Guest guest = hotelDao.getGuestByName(authentication.getName());
       model.addAttribute(guest);
 
       return "guest";
@@ -51,7 +53,7 @@ public class HotelController {
   }
 
   @PostMapping("/hotel")
-  public String selectHotelForm(@ModelAttribute CreateReservation createReservation, Model model) {
+  public String selectHotelForm(@ModelAttribute ReservationRequest reservationRequest, Model model) {
     try {
       List hotels = hotelDao.getHotels();
       model.addAttribute("hotels", hotels);
@@ -63,9 +65,9 @@ public class HotelController {
   }
 
   @PostMapping("/apartment")
-  public String selectApartmentForm(@ModelAttribute CreateReservation createReservation, Model model) {
+  public String selectApartmentForm(@ModelAttribute ReservationRequest reservationRequest, Model model) {
     try {
-      List hotels = hotelDao.getHotelByName(createReservation.getHotelName());
+      List hotels = hotelDao.getHotelByName(reservationRequest.getHotelName());
       model.addAttribute("hotels", hotels);
 
       return "selectApartmentForm";
@@ -75,22 +77,21 @@ public class HotelController {
   }
 
   @PostMapping("/create")
-  public RedirectView createReservation(CreateReservation createReservation, RedirectAttributes attributes) {
+  public RedirectView createReservation(ReservationRequest reservationRequest, RedirectAttributes attributes) {
     try {
-      Guest guest = hotelDao.createReservation(createReservation);
-      attributes.addAttribute("name", guest.getName());
+      hotelDao.createReservation(reservationRequest);
 
       return new RedirectView("/guests");
     } catch (HttpServerErrorException e) {
-      attributes.addFlashAttribute(createReservation);
+      attributes.addFlashAttribute(reservationRequest);
 
       return new RedirectView("/errorCreate");
     }
   }
 
   @GetMapping("/errorCreate")
-  public String errorPage(CreateReservation createReservation, Model model) {
-    model.addAttribute(createReservation);
+  public String errorPage(ReservationRequest reservationRequest, Model model) {
+    model.addAttribute(reservationRequest);
 
     return "busyApartment";
   }
@@ -123,9 +124,8 @@ public class HotelController {
   public RedirectView editReservationForm(EditReservation editReservation,
       RedirectAttributes attributes) {
     try {
-      CreateReservation request = ReservationRequestBuilder.build(editReservation);
-      Guest guest = hotelDao.editReservation(request, editReservation.getReservationId());
-      attributes.addAttribute("name", guest.getName());
+      ReservationRequest request = ReservationRequestBuilder.build(editReservation);
+      hotelDao.editReservation(request, editReservation.getReservationId());
 
       return new RedirectView("/guests");
     } catch (HttpServerErrorException e) {
@@ -143,10 +143,20 @@ public class HotelController {
   }
 
   @PostMapping("/delete")
-  public RedirectView deleteReservation(ReservationId reservationId, RedirectAttributes attributes) {
-    Guest guest = hotelDao.deleteReservation(reservationId.getGuestId(), reservationId.getId());
-    attributes.addAttribute("name", guest.getName());
+  public RedirectView deleteReservation(ReservationId reservationId) {
+    hotelDao.deleteReservation(reservationId.getGuestId(), reservationId.getId());
 
     return new RedirectView("/guests");
+  }
+
+  @RequestMapping("/login")
+  public String login() {
+    return "login";
+  }
+
+  @RequestMapping("/login-error")
+  public String loginError(Model model) {
+    model.addAttribute("loginError", true);
+    return "login";
   }
 }

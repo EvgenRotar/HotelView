@@ -27,9 +27,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
 import com.evgen.Guest;
+import com.evgen.ReservationRequest;
 import com.evgen.config.ConnectorTestConfig;
 import com.evgen.connector.Connector;
-import com.evgen.wrapper.CreateReservation;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ConnectorTestConfig.class)
@@ -64,7 +64,7 @@ public class ConnectorTest {
     replay(restTemplateMock);
 
     Guest response = connector
-        .sendRequestWithBody(new CreateReservation(), new HttpHeaders(), new URI(""), HttpMethod.POST, Guest.class);
+        .sendRequestWithBody(new ReservationRequest(), new HttpHeaders(), new URI(""), HttpMethod.POST, Guest.class);
 
     assertNotNull(response);
   }

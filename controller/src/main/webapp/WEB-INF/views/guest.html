@@ -13,7 +13,6 @@
 <body>
 <div class="container">
   <h3 th:text="${guest.name}"></h3>
-
   <table class="table">
     <thead>
     <tr th:if="${guest.reservations.empty}">
@@ -62,9 +61,14 @@
     </tr>
     </tbody>
   </table>
-  <form action="#" th:action="@{/hotel}" th:object="${createReservation}" method="post">
+  <form action="#" th:action="@{/hotel}" th:object="${reservationRequest}" method="post">
     <input type="hidden" th:value="${guest.guestId}" id="guestId" name="guestId" class="form-control">
     <button type="submit" class="btn btn-primary btn-lg">Create reservation</button>
   </form>
+  <div class="mx-auto" style="width: 200px;">
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn btn-secondary btn-lg">Logout</button>
+    </form>
+  </div>
 </div>
 </body>

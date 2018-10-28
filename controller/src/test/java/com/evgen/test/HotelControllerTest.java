@@ -4,7 +4,6 @@ import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
-import static org.easymock.EasyMock.verify;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -26,9 +25,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.evgen.Guest;
+import com.evgen.ReservationRequest;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
-import com.evgen.wrapper.CreateReservation;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
@@ -56,20 +55,8 @@ public class HotelControllerTest {
   @Test
   public void indexTest() throws Exception {
     this.mockMvc.perform(get("/"))
-        .andExpect(status().isOk())
-        .andExpect(content().string(containsString("")))
-        .andExpect(view().name("index"));
-  }
-
-  @Test
-  public void retrieveGuestTest() throws Exception {
-    expect(hotelDao.getGuestByName(null)).andReturn(new Guest());
-    replay(hotelDao);
-
-    this.mockMvc.perform(get("/guests"))
-        .andExpect(status().isOk())
-        .andExpect(content().string(containsString("")))
-        .andExpect(view().name("guest"));
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/guests"));
   }
 
   @Test
@@ -92,10 +79,10 @@ public class HotelControllerTest {
   public void createReservationTest() throws Exception {
     Guest guest = new Guest();
     guest.setName("sergei");
-    expect(hotelDao.createReservation(anyObject(CreateReservation.class))).andReturn(guest);
+    expect(hotelDao.createReservation(anyObject(ReservationRequest.class))).andReturn(guest);
     replay(hotelDao);
 
     this.mockMvc.perform(post("/create"))
-        .andExpect(redirectedUrl("/guests?name=" + guest.getName()));
+        .andExpect(redirectedUrl("/guests"));
   }
 }

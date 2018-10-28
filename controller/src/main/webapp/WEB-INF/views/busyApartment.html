@@ -20,8 +20,8 @@
           Sorry, these apartments are reserved!
         </div>
         <div class="error-actions">
-          <form action="#" th:action="@{/hotel}" th:object="${createReservation}" method="post">
-            <input type="hidden" th:value="${createReservation.guestId}" id="guestId" name="guestId"
+          <form action="#" th:action="@{/hotel}" th:object="${reservationRequest}" method="post">
+            <input type="hidden" th:value="${reservationRequest.guestId}" id="guestId" name="guestId"
                    class="form-control">
             <button type="submit" class="btn btn-primary btn-lg">Create other reservation</button>
           </form>

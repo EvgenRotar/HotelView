@@ -13,13 +13,10 @@ public class WebAppInitializer implements WebApplicationInitializer {
   public void onStartup(ServletContext servletContext) {
     AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
     context.register(WebConfig.class);
-    context.register(SecurityConfig.class);
     context.setServletContext(servletContext);
 
     ServletRegistration.Dynamic dispathcer = servletContext.addServlet("dispathcer", new DispatcherServlet(context));
     dispathcer.setLoadOnStartup(1);
     dispathcer.addMapping("/");
   }
-
-
 }

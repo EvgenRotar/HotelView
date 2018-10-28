@@ -27,10 +27,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.Reservation;
+import com.evgen.ReservationRequest;
 import com.evgen.config.DaoImplTestConfig;
 import com.evgen.connector.Connector;
 import com.evgen.dao.HotelDao;
-import com.evgen.wrapper.CreateReservation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -167,8 +167,8 @@ public class DaoImplTest {
   public void createReservation() throws IOException {
     LOGGER.debug("test: create reservation");
 
-    CreateReservation createReservation = objectMapper
-        .readValue(getClass().getResourceAsStream(RESERVATION_REQUEST), CreateReservation.class);
+    ReservationRequest createReservation = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATION_REQUEST), ReservationRequest.class);
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
     URI uri = UriComponentsBuilder.fromUriString(createReservationUrl).build().toUri();
 
@@ -185,8 +185,8 @@ public class DaoImplTest {
   public void editReservation() throws IOException {
     LOGGER.debug("test: edit reservation");
 
-    CreateReservation createReservation = objectMapper
-        .readValue(getClass().getResourceAsStream(RESERVATION_REQUEST), CreateReservation.class);
+    ReservationRequest createReservation = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATION_REQUEST), ReservationRequest.class);
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
     URI uri = UriComponentsBuilder.fromUriString(deleteReservationUrl).buildAndExpand("5bc7340b677aa44e986d19db")
         .toUri();
