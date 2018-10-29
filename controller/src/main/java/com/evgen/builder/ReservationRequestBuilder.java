@@ -7,11 +7,11 @@ public class ReservationRequestBuilder {
 
   public static ReservationRequest build(EditReservation editReservation) {
     return ReservationRequest.builder()
-        .setGuestId(editReservation.getGuestId())
-        .setHotelName(editReservation.getHotelName())
-        .setApartmentNumber(editReservation.getApartmentNumber())
-        .setStartReservationData(editReservation.getStartReservationData())
-        .setEndReservationData(editReservation.getEndReservationData())
+        .guestId(editReservation.getGuestId())
+        .hotelName(editReservation.getHotelName())
+        .apartmentNumber(editReservation.getApartmentNumber())
+        .startReservationData(editReservation.getStartReservationData())
+        .endReservationData(editReservation.getEndReservationData())
         .build();
   }
 }

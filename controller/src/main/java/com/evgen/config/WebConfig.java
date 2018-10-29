@@ -1,6 +1,5 @@
 package com.evgen.config;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -28,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.evgen")
 @PropertySource("classpath:url.properties")
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, DaoConfig.class})
 public class WebConfig implements WebMvcConfigurer {
 
   private final ApplicationContext applicationContext;
@@ -49,11 +45,6 @@ public class WebConfig implements WebMvcConfigurer {
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
     converters.add(jsonConverter());
-  }
-
-  @Bean
-  public ObjectMapper objectMapper() {
-    return new ObjectMapper();
   }
 
   @Bean
@@ -89,22 +80,6 @@ public class WebConfig implements WebMvcConfigurer {
     messageSource.setDefaultEncoding("UTF-8");
     messageSource.setUseCodeAsDefaultMessage(true);
     return messageSource;
-  }
-
-  @Bean
-  RestTemplate restTemplate(ObjectMapper objectMapper) {
-    HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-    httpRequestFactory.setConnectTimeout(5000);
-    httpRequestFactory.setReadTimeout(5000);
-
-    BufferingClientHttpRequestFactory bufferingClientHttpRequestFactory = new BufferingClientHttpRequestFactory(
-        httpRequestFactory);
-    RestTemplate restTemplate = new RestTemplate(bufferingClientHttpRequestFactory);
-    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-    mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
-    restTemplate.setMessageConverters(Collections.singletonList(mappingJackson2HttpMessageConverter));
-
-    return restTemplate;
   }
 
 }
