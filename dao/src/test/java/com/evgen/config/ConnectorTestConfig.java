@@ -11,9 +11,13 @@ import com.evgen.connector.Connector;
 public class ConnectorTestConfig {
 
   @Bean
-  public RestTemplate restTemplate() { return  EasyMock.createMock(RestTemplate.class); }
+  public RestTemplate restTemplate() {
+    return EasyMock.createMock(RestTemplate.class);
+  }
 
   @Bean
-  public Connector connector() { return new Connector(restTemplate()); }
+  public Connector connector() {
+    return new Connector(restTemplate());
+  }
 
 }

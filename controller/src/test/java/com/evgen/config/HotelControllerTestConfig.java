@@ -27,6 +27,7 @@ public class HotelControllerTestConfig {
   }
 
   @Bean
-  UserCreateService userCreateService() { return EasyMock.createMock(UserCreateServiceImpl.class); }
+  UserCreateService userCreateService() {
+    return EasyMock.createMock(UserCreateServiceImpl.class);
+  }
 }
-
