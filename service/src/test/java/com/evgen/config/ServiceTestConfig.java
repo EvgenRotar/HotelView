@@ -2,27 +2,23 @@ package com.evgen.config;
 
 import org.easymock.EasyMock;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.evgen.dao.HotelDao;
+import com.evgen.service.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
-@EnableWebMvc
-@ComponentScan(basePackages = "com.evgen.controller")
-public class HotelControllerTestConfig {
+public class ServiceTestConfig {
 
   @Bean
-  public HotelDao hotelDao() {
-    return EasyMock.createMock(HotelDao.class);
-  }
+  public HotelDao hotelDao() { return  EasyMock.createMock(HotelDao.class); }
+
+  @Bean
+  public UserDetailsServiceImpl userDetailsService() { return new UserDetailsServiceImpl(hotelDao()); }
 
   @Bean
   public ObjectMapper objectMapper() {
     return new ObjectMapper();
   }
-
 }
-

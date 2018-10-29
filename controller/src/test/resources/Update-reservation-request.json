@@ -1,0 +1,8 @@
+{
+  "guestId": "1",
+  "reservationId": "2",
+  "apartmentNumber": "3",
+  "hotelName": "Abc",
+  "startReservationData": "2019-10-12",
+  "endReservationData": "2019-10-14"
+}

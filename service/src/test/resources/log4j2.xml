@@ -1,0 +1,14 @@
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="ERROR">
+            <appender-ref ref="Console"/>
+        </Root>
+        <Logger name="org.springframework" level="INFO"/>
+        <Logger name="com.evgen" level="DEBUG"/>
+    </Loggers>
+</Configuration>
