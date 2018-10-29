@@ -14,6 +14,7 @@
     <module>dao-api</module>
     <module>wrapper</module>
     <module>service</module>
+    <module>service-api</module>
   </modules>
 
   <properties>
@@ -32,10 +33,17 @@
     <mongodb.version>2.1.0.RELEASE</mongodb.version>
     <httpclient.verison>4.5.2</httpclient.verison>
     <spring-security.version>5.0.6.RELEASE</spring-security.version>
+    <apache.commons.vesrion>3.2.1</apache.commons.vesrion>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+
+      <dependency>
+        <groupId>com.evgen</groupId>
+        <artifactId>service-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>com.evgen</groupId>
@@ -225,6 +233,12 @@
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-config</artifactId>
         <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${apache.commons.vesrion}</version>
       </dependency>
 
     </dependencies>

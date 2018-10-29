@@ -28,6 +28,7 @@ import com.evgen.Guest;
 import com.evgen.ReservationRequest;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
+import com.evgen.service.UserCreateServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
@@ -41,6 +42,9 @@ public class HotelControllerTest {
 
   @Autowired
   private HotelDao hotelDao;
+
+  @Autowired
+  private UserCreateServiceImpl userCreateService;
 
   @After
   public void tearDown() {

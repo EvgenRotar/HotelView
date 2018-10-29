@@ -23,7 +23,12 @@
     <label for="password">Password</label>
     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Login</button>
 </form>
+<div class="mx-auto" style="width: 200px;">
+  <form th:action="@{/registration}" method="get">
+    <button type="submit" class="btn btn-secondary btn-lg">Registration</button>
+  </form>
+</div>
 </body>
 </html>

@@ -21,6 +21,7 @@ import com.evgen.Guest;
 import com.evgen.ReservationRequest;
 import com.evgen.builder.ReservationRequestBuilder;
 import com.evgen.dao.HotelDao;
+import com.evgen.service.UserCreateService;
 import com.evgen.wrapper.EditReservation;
 import com.evgen.wrapper.ReservationId;
 
@@ -28,18 +29,20 @@ import com.evgen.wrapper.ReservationId;
 public class HotelController {
 
   private final HotelDao hotelDao;
+  private final UserCreateService userCreateServiceImpl;
 
   @Autowired
-  public HotelController(HotelDao hotelDao) {
+  public HotelController(HotelDao hotelDao, UserCreateService userCreateServiceImpl) {
     this.hotelDao = hotelDao;
+    this.userCreateServiceImpl = userCreateServiceImpl;
   }
 
-  @RequestMapping("/")
+  @GetMapping("/")
   public RedirectView index() {
     return new RedirectView("/guests");
   }
 
-  @RequestMapping("/guests")
+  @GetMapping("/guests")
   public String retrieveGuest(@ModelAttribute ReservationId reservationId, Model model) {
     try {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,6 +53,22 @@ public class HotelController {
     } catch (HttpClientErrorException | ResourceAccessException | IllegalArgumentException e) {
       return "error";
     }
+  }
+
+  @PostMapping("/guests")
+  public RedirectView createGuest(Guest guest) {
+    try {
+      userCreateServiceImpl.createGuest(guest);
+
+      return new RedirectView("/login");
+    } catch (HttpServerErrorException e) {
+      return new RedirectView("/error-registration");
+    }
+  }
+
+  @GetMapping("/registration")
+  public String createGuestForm(@ModelAttribute Guest guest) {
+    return "registrationForm";
   }
 
   @PostMapping("/hotel")
@@ -157,6 +176,14 @@ public class HotelController {
   @RequestMapping("/login-error")
   public String loginError(Model model) {
     model.addAttribute("loginError", true);
+
     return "login";
+  }
+
+  @RequestMapping("/error-registration")
+  public String registrationError(@ModelAttribute Guest guest, Model model) {
+    model.addAttribute("registrationError", true);
+
+    return "registrationForm";
   }
 }

@@ -35,6 +35,9 @@ public class HotelDaoImpl implements HotelDao {
   @Value("${url.createReservation}")
   private String createReservationUrl;
 
+  @Value("${url.createGuest}")
+  private String createGuestUrl;
+
   @Autowired
   public HotelDaoImpl(Connector connector) {
     this.connector = connector;
@@ -91,6 +94,13 @@ public class HotelDaoImpl implements HotelDao {
     URI uri = UriComponentsBuilder.fromUriString(deleteReservationUrl).buildAndExpand(reservationId).toUri();
 
     return connector.sendRequestWithBody(reservationRequest, new HttpHeaders(), uri, HttpMethod.PUT, Guest.class);
+  }
+
+  @Override
+  public Guest createGuest(Guest guest) {
+    URI uri = UriComponentsBuilder.fromUriString(createGuestUrl).build().toUri();
+
+    return connector.sendRequestWithBody(guest, new HttpHeaders(), uri, HttpMethod.POST, Guest.class);
   }
 
 }

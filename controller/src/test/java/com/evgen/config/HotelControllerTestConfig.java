@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.evgen.dao.HotelDao;
+import com.evgen.service.UserCreateService;
+import com.evgen.service.UserCreateServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
@@ -24,5 +26,7 @@ public class HotelControllerTestConfig {
     return new ObjectMapper();
   }
 
+  @Bean
+  UserCreateService userCreateService() { return EasyMock.createMock(UserCreateServiceImpl.class); }
 }
 
