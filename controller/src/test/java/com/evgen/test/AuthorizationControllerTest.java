@@ -32,7 +32,7 @@ import com.evgen.dao.HotelDao;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
 @WebAppConfiguration
-public class HotelControllerTest {
+public class AuthorizationControllerTest {
 
   @Autowired
   private WebApplicationContext webApplicationContext;
