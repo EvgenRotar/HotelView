@@ -13,7 +13,7 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.com.evgen</groupId>
+      <groupId>com.evgen</groupId>
       <artifactId>model</artifactId>
     </dependency>
 
