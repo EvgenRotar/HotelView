@@ -1,16 +1,17 @@
 package com.evgen.test;
 
 import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.anyString;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
-import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,15 +26,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.evgen.Guest;
-import com.evgen.ReservationRequest;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
-import com.evgen.utils.Oauth2Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
 @WebAppConfiguration
-public class AuthorizationControllerTest {
+public class EditReservationControllerTest {
 
   @Autowired
   private WebApplicationContext webApplicationContext;
@@ -42,9 +41,6 @@ public class AuthorizationControllerTest {
 
   @Autowired
   private HotelDao hotelDao;
-
-  @Autowired
-  private Oauth2Utils oauth2Utils;
 
   @After
   public void tearDown() {
@@ -57,36 +53,43 @@ public class AuthorizationControllerTest {
   }
 
   @Test
-  public void indexTest() throws Exception {
-    this.mockMvc.perform(get("/"))
+  public void selectHotelEditFormTest() throws Exception {
+    expect(hotelDao.getHotels())
+        .andReturn(new ArrayList());
+    replay(hotelDao);
+
+    this.mockMvc.perform(post("/hotelEdit"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("selectHotelEditForm"));
+  }
+
+  @Test
+  public void selectApartmentEditFormTest() throws Exception {
+    expect(hotelDao.getHotelByName(anyString()))
+        .andReturn(new ArrayList());
+    replay(hotelDao);
+
+    this.mockMvc.perform(post("/apartmentEdit"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("selectApartmentEditForm"));
+  }
+
+  @Test
+  public void editReservationFormTest() throws Exception {
+    expect(hotelDao.editReservation(anyObject(), anyString()))
+        .andReturn(new Guest());
+    replay(hotelDao);
+
+    this.mockMvc.perform(post("/edit"))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl("/guests"));
   }
 
   @Test
-  public void selectHotelFormTest() throws Exception {
-    this.mockMvc.perform(post("/hotel"))
+  public void errorPageEditTest() throws Exception {
+
+    this.mockMvc.perform(get("/errorEdit"))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("")))
-        .andExpect(view().name("selectHotelForm"));
-  }
-
-  @Test
-  public void selectApartmentFormTest() throws Exception {
-    this.mockMvc.perform(post("/apartment"))
-        .andExpect(status().isOk())
-        .andExpect(content().string(containsString("")))
-        .andExpect(view().name("selectApartmentForm"));
-  }
-
-  @Test
-  public void createReservationTest() throws Exception {
-    Guest guest = new Guest();
-    guest.setName("sergei");
-    expect(hotelDao.createReservation(anyObject(ReservationRequest.class))).andReturn(guest);
-    replay(hotelDao);
-
-    this.mockMvc.perform(post("/create"))
-        .andExpect(redirectedUrl("/guests"));
+        .andExpect(view().name("busyApartmentEdit"));
   }
 }
