@@ -9,7 +9,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
-<body>
 <h1>Login page</h1>
 <p th:if="${loginError}" class="error">Wrong user or password</p>
 <form th:action="@{/login}" method="post">
@@ -25,6 +24,12 @@
   </div>
   <button type="submit" class="btn btn-primary">Login</button>
 </form>
+<h1></h1>
+<div>
+  <p th:each="url : ${urls}">
+    <a th:text="${url.key}" th:href="${url.value}">Client</a>
+  </p>
+</div>
 <div class="mx-auto" style="width: 200px;">
   <form th:action="@{/registration}" method="get">
     <button type="submit" class="btn btn-secondary btn-lg">Registration</button>

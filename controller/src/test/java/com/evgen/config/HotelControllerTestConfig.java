@@ -4,6 +4,7 @@ import org.easymock.EasyMock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.evgen.dao.HotelDao;
@@ -30,4 +31,10 @@ public class HotelControllerTestConfig {
   UserCreateService userCreateService() {
     return EasyMock.createMock(UserCreateServiceImpl.class);
   }
+
+  @Bean
+  ClientRegistrationRepository clientRegistrationRepository() {
+    return EasyMock.createMock(ClientRegistrationRepository.class);
+  }
+
 }

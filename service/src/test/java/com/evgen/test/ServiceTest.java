@@ -73,7 +73,7 @@ public class ServiceTest {
 
     Assert.assertEquals(user.getUsername(), "sergei");
     Assert.assertEquals(user.getPassword(), "das");
-    Assert.assertEquals(user.getAuthorities().toArray()[0], new SimpleGrantedAuthority("ROLE_ADMIN"));
+    Assert.assertEquals(user.getAuthorities().toArray()[0], new SimpleGrantedAuthority("ROLE_USER"));
   }
 
   @Test

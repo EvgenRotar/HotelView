@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -41,6 +42,9 @@ public class AuthorizationControllerTest {
 
   @Autowired
   private HotelDao hotelDao;
+
+  @Autowired
+  private  ClientRegistrationRepository clientRegistrationRepository;
 
   @After
   public void tearDown() {
