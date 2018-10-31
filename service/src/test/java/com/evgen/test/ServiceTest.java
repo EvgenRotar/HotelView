@@ -37,6 +37,7 @@ public class ServiceTest {
   private static final String GUEST = "/Guest-with-reservations.json";
   private static final String NEW_GUEST_REQUEST = "/New-guest-request.json";
   private static final String NEW_GUEST = "/New-guest.json";
+  private static final String NEW_GUEST_FROM_GOOGLE = "/Guest-from-google.json";
 
   @Autowired
   private HotelDao hotelDaoMock;
@@ -89,5 +90,18 @@ public class ServiceTest {
     Guest guest1 = userCreateService.createGuest(guestRequest);
 
     Assert.assertEquals(guest1.getPassword(), guestResponse.getPassword());
+  }
+
+  @Test
+  public void createGuestFromGoogle() throws IOException {
+    LOGGER.debug("test: create Guest from Google");
+
+    Guest guestResponse = objectMapper.readValue(getClass().getResourceAsStream(NEW_GUEST_FROM_GOOGLE), Guest.class);
+    expect(hotelDaoMock.createGuest(anyObject(Guest.class))).andReturn(guestResponse);
+    replay(hotelDaoMock);
+
+    Guest guest = userCreateService.createGuestFromGoogle("pash");
+
+    Assert.assertEquals(guest.getName(), "pash");
   }
 }

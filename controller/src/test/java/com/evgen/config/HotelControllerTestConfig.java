@@ -4,12 +4,12 @@ import org.easymock.EasyMock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.evgen.dao.HotelDao;
 import com.evgen.service.UserCreateService;
 import com.evgen.service.UserCreateServiceImpl;
+import com.evgen.utils.Oauth2Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
@@ -33,8 +33,8 @@ public class HotelControllerTestConfig {
   }
 
   @Bean
-  ClientRegistrationRepository clientRegistrationRepository() {
-    return EasyMock.createMock(ClientRegistrationRepository.class);
+  Oauth2Utils oauth2Utils() {
+    return EasyMock.createMock(Oauth2Utils.class);
   }
 
 }

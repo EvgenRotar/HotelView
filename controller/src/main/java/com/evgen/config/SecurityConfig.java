@@ -1,6 +1,6 @@
 package com.evgen.config;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,7 +30,7 @@ import com.evgen.service.UserDetailsServiceImpl;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private static List<String> clients = Arrays.asList("google", "facebook");
+  private static List<String> clients = Collections.singletonList("google");
 
   private final UserDetailsServiceImpl userDetailsService;
 
@@ -75,9 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public OAuth2AuthorizedClientService authorizedClientService() {
-
-    return new InMemoryOAuth2AuthorizedClientService(
-        clientRegistrationRepository());
+    return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository());
   }
 
   @Bean
@@ -92,23 +90,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private ClientRegistration getRegistration(String client) {
     String CLIENT_PROPERTY_KEY = "spring.security.oauth2.client.registration.";
-    String clientId = env.getProperty(
-        CLIENT_PROPERTY_KEY + client + ".client-id");
-
-    if (clientId == null) {
-      return null;
-    }
-
-    String clientSecret = env.getProperty(
-        CLIENT_PROPERTY_KEY + client + ".client-secret");
+    String clientId = env.getProperty(CLIENT_PROPERTY_KEY + client + ".client-id");
+    String clientSecret = env.getProperty(CLIENT_PROPERTY_KEY + client + ".client-secret");
 
     if (client.equals("google")) {
-      return CommonOAuth2Provider.GOOGLE.getBuilder(client)
-          .clientId(clientId).clientSecret(clientSecret).build();
-    }
-    if (client.equals("facebook")) {
-      return CommonOAuth2Provider.FACEBOOK.getBuilder(client)
-          .clientId(clientId).clientSecret(clientSecret).build();
+      return CommonOAuth2Provider.GOOGLE
+          .getBuilder(client)
+          .clientId(clientId)
+          .clientSecret(clientSecret)
+          .build();
     }
     return null;
   }

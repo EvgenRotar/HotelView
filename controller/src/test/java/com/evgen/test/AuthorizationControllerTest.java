@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -29,6 +28,7 @@ import com.evgen.Guest;
 import com.evgen.ReservationRequest;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
+import com.evgen.utils.Oauth2Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
@@ -44,7 +44,7 @@ public class AuthorizationControllerTest {
   private HotelDao hotelDao;
 
   @Autowired
-  private  ClientRegistrationRepository clientRegistrationRepository;
+  private Oauth2Utils oauth2Utils;
 
   @After
   public void tearDown() {

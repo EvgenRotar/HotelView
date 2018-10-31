@@ -6,4 +6,6 @@ public interface UserCreateService {
 
   Guest createGuest(Guest guest);
 
+  Guest createGuestFromGoogle(String name);
+
 }

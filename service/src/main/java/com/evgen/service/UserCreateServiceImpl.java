@@ -1,7 +1,6 @@
 package com.evgen.service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +27,16 @@ public class UserCreateServiceImpl implements UserCreateService {
   @Override
   public Guest createGuest(Guest guest) {
     validationGuest(guest);
-    List<Reservation> reservations = new ArrayList<>();
-    guest.setReservations(reservations);
+    guest.setReservations(new ArrayList<Reservation>());
     guest.setPassword(bCryptPasswordEncoder.encode(guest.getPassword()));
 
+    return hotelDao.createGuest(guest);
+  }
+
+  public Guest createGuestFromGoogle(String name) {
+    Guest guest = new Guest();
+    guest.setReservations(new ArrayList<Reservation>());
+    guest.setName(name);
     return hotelDao.createGuest(guest);
   }
 
