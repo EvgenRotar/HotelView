@@ -15,11 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class DaoConfig {
 
   @Bean
-  public ObjectMapper objectMapper() {
-    return new ObjectMapper();
-  }
-
-  @Bean
   RestTemplate restTemplate(ObjectMapper objectMapper) {
     HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
     httpRequestFactory.setConnectTimeout(5000);
