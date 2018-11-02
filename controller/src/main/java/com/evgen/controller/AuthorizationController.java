@@ -70,6 +70,8 @@ public class AuthorizationController {
 
   @RequestMapping("/login-error")
   public String loginError(Model model) {
+    oauth2Utils.setOauth2AuthenticationUrls(oauth2AuthenticationUrls);
+    model.addAttribute("urls", oauth2AuthenticationUrls);
     model.addAttribute("loginError", true);
 
     return "login";
