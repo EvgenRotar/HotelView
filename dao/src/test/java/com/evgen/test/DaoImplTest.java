@@ -127,23 +127,6 @@ public class DaoImplTest {
     Assert.assertEquals(hotelDao.getGuestByName("sergei").getGuestId(), "5bc449c09ddbcd660ac58f07");
   }
 
-  @Test
-  public void getReservations() throws IOException {
-    LOGGER.debug("test: get reservations by guestId");
-
-    Reservation reservation = objectMapper.readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
-    ArrayList<Reservation> reservations = new ArrayList<>();
-    reservations.add(reservation);
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("guestId", "1");
-    URI uri = UriComponentsBuilder.fromUriString(getReservationsUrl).build().toUri();
-
-    expect(connectorMock.sendRequestWithoutBody(headers, uri, HttpMethod.GET, ArrayList.class))
-        .andReturn(reservations);
-    replay(connectorMock);
-
-    Assert.assertEquals(hotelDao.getReservations("1").size(), 1);
-  }
 
   @Test
   public void deleteReservation() throws IOException {

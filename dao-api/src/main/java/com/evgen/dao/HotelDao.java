@@ -13,7 +13,7 @@ public interface HotelDao {
 
   Guest getGuestByName(String name);
 
-  List getReservations(String guestId);
+  //List getReservations(String guestId);
 
   Guest deleteReservation(String guestId, String reservationId);
 
