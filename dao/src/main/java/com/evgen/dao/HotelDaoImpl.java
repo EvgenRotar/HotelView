@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import com.evgen.ReservationRequest;
 import com.evgen.connector.Connector;
 
 @Component
+@PropertySource(value = "classpath:url.properties")
 public class HotelDaoImpl implements HotelDao {
 
   private Connector connector;
@@ -25,9 +27,6 @@ public class HotelDaoImpl implements HotelDao {
 
   @Value("${url.getGuestByName}")
   private String getGuestByNameUrl;
-
-  @Value("${url.getReservations}")
-  private String getReservationsUrl;
 
   @Value("${url.deleteReservation}")
   private String deleteReservationUrl;
@@ -63,15 +62,6 @@ public class HotelDaoImpl implements HotelDao {
 
     return connector.sendRequestWithoutBody(new HttpHeaders(), uri, HttpMethod.GET, Guest.class);
   }
-
-//  @Override
-//  public List getReservations(String guestId) {
-//    URI uri = UriComponentsBuilder.fromUriString(getReservationsUrl).build().toUri();
-//    HttpHeaders headers = new HttpHeaders();
-//    headers.add("guestId", guestId);
-//
-//    return connector.sendRequestWithoutBody(headers, uri, HttpMethod.GET, ArrayList.class);
-//  }
 
   @Override
   public Guest deleteReservation(String guestId, String reservationId) {

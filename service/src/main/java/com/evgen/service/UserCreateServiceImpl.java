@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebInputException;
 
 import com.evgen.Guest;
-import com.evgen.Reservation;
 import com.evgen.dao.HotelDao;
 
 @Service
@@ -27,7 +26,7 @@ public class UserCreateServiceImpl implements UserCreateService {
   @Override
   public Guest createGuest(Guest guest) {
     validationGuest(guest);
-    guest.setReservations(new ArrayList<Reservation>());
+    guest.setReservations(new ArrayList<>());
     guest.setPassword(bCryptPasswordEncoder.encode(guest.getPassword()));
 
     return hotelDao.createGuest(guest);
@@ -35,7 +34,7 @@ public class UserCreateServiceImpl implements UserCreateService {
 
   public Guest createGuestFromGoogle(String name) {
     Guest guest = new Guest();
-    guest.setReservations(new ArrayList<Reservation>());
+    guest.setReservations(new ArrayList<>());
     guest.setName(name);
     return hotelDao.createGuest(guest);
   }

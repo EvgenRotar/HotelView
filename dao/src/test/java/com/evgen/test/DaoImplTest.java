@@ -26,7 +26,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.evgen.Guest;
 import com.evgen.Hotel;
-import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 import com.evgen.config.DaoImplTestConfig;
 import com.evgen.connector.Connector;

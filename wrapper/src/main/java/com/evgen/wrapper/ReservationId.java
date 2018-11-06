@@ -1,8 +1,5 @@
 package com.evgen.wrapper;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class ReservationId {
 
   private String id;
