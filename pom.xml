@@ -34,10 +34,13 @@
     <validation-api.version>2.0.0.Final</validation-api.version>
     <sping-boot.version>2.1.0.RELEASE</sping-boot.version>
     <httpclient.verison>4.5.2</httpclient.verison>
+    <spring-security.version>5.1.1.RELEASE</spring-security.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+
+      <!--project-->
 
       <dependency>
         <groupId>com.evgen</groupId>
@@ -81,23 +84,18 @@
         <version>${project.version}</version>
       </dependency>
 
+      <!--spring-boot-->
+
       <dependency>
-        <groupId>org.easymock</groupId>
-        <artifactId>easymock</artifactId>
-        <version>${easymock.version}</version>
-        <scope>test</scope>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>${sping-boot.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>${httpclient.verison}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-        <version>${sping-boot.version}</version>
       </dependency>
 
       <dependency>
@@ -123,6 +121,29 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-thymeleaf</artifactId>
         <version>${sping-boot.version}</version>
+      </dependency>
+
+      <!--spring-security-->
+
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-oauth2-client</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-oauth2-jose</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+
+      <!--test-->
+
+      <dependency>
+        <groupId>org.easymock</groupId>
+        <artifactId>easymock</artifactId>
+        <version>${easymock.version}</version>
+        <scope>test</scope>
       </dependency>
 
     </dependencies>

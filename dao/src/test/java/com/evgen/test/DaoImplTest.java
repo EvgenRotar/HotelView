@@ -38,10 +38,10 @@ public class DaoImplTest {
 
   private static final Logger LOGGER = LogManager.getLogger(DaoImplTest.class);
 
-  private static final String HOTEL = "/Hotel.json";
-  private static final String GUEST = "/Guest-with-reservations.json";
-  private static final String RESERVATIONS = "/Reservations.json";
-  private static final String RESERVATION_REQUEST = "/Reservation-request.json";
+  private static final String HOTEL = "/json/Hotel.json";
+  private static final String GUEST = "/json/Guest-with-reservations.json";
+  private static final String RESERVATIONS = "/json/Reservations.json";
+  private static final String RESERVATION_REQUEST = "/json/Reservation-request.json";
 
   @Autowired
   private ObjectMapper objectMapper;

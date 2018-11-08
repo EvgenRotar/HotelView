@@ -34,10 +34,10 @@ public class ServiceTest {
 
   private static final Logger LOGGER = LogManager.getLogger(ServiceTest.class);
 
-  private static final String GUEST = "/Guest-with-reservations.json";
-  private static final String NEW_GUEST_REQUEST = "/New-guest-request.json";
-  private static final String NEW_GUEST = "/New-guest.json";
-  private static final String NEW_GUEST_FROM_GOOGLE = "/Guest-from-google.json";
+  private static final String GUEST = "/json/Guest-with-reservations.json";
+  private static final String NEW_GUEST_REQUEST = "/json/New-guest-request.json";
+  private static final String NEW_GUEST = "/json/New-guest.json";
+  private static final String NEW_GUEST_FROM_GOOGLE = "/json/Guest-from-google.json";
 
   @Autowired
   private HotelDao hotelDaoMock;

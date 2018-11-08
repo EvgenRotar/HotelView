@@ -13,6 +13,9 @@
   <packaging>jar</packaging>
 
   <dependencies>
+
+    <!--project-->
+
     <dependency>
       <groupId>com.com.evgen</groupId>
       <artifactId>model</artifactId>
@@ -22,6 +25,7 @@
       <groupId>com.evgen</groupId>
       <artifactId>wrapper</artifactId>
     </dependency>
+
   </dependencies>
 
 </project>

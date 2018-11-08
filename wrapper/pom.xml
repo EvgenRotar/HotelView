@@ -13,10 +13,14 @@
   <packaging>jar</packaging>
 
   <dependencies>
+
+    <!--project-->
+
     <dependency>
       <groupId>com.com.evgen</groupId>
       <artifactId>model</artifactId>
     </dependency>
+
   </dependencies>
 
 </project>
