@@ -26,8 +26,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.evgen.Guest;
+import com.evgen.Message;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
+import com.evgen.utils.ActiveMqUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
@@ -42,8 +44,12 @@ public class EditReservationControllerTest {
   @Autowired
   private HotelDao hotelDao;
 
+  @Autowired
+  private ActiveMqUtils activeMqUtils;
+
   @After
   public void tearDown() {
+    reset(activeMqUtils);
     reset(hotelDao);
   }
 
@@ -54,9 +60,12 @@ public class EditReservationControllerTest {
 
   @Test
   public void selectHotelEditFormTest() throws Exception {
-    expect(hotelDao.getHotels())
-        .andReturn(new ArrayList());
-    replay(hotelDao);
+//    expect(hotelDao.getHotels())
+//        .andReturn(new ArrayList());
+//    replay(hotelDao);
+
+    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
+    replay(activeMqUtils);
 
     this.mockMvc.perform(post("/hotelEdit"))
         .andExpect(status().isOk())
@@ -76,9 +85,12 @@ public class EditReservationControllerTest {
 
   @Test
   public void editReservationFormTest() throws Exception {
-    expect(hotelDao.editReservation(anyObject(), anyString()))
-        .andReturn(new Guest());
-    replay(hotelDao);
+//    expect(hotelDao.editReservation(anyObject(), anyString()))
+//        .andReturn(new Guest());
+//    replay(hotelDao);
+
+    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
+    replay(activeMqUtils);
 
     this.mockMvc.perform(post("/edit"))
         .andExpect(status().is3xxRedirection())

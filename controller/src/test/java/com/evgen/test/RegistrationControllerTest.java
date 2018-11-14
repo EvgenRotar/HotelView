@@ -65,7 +65,6 @@ public class RegistrationControllerTest {
   }
 
   @Test
-  @Ignore
   public void createGuestTest() throws Exception {
     expect(userCreateService.createGuest(anyObject()))
         .andReturn(new Guest());

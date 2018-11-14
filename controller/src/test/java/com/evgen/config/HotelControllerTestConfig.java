@@ -6,10 +6,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.evgen.messaging.MessageReceiver;
 import com.evgen.messaging.MessageSender;
 import com.evgen.dao.HotelDao;
 import com.evgen.service.UserCreateService;
 import com.evgen.service.UserCreateServiceImpl;
+import com.evgen.utils.ActiveMqUtils;
 import com.evgen.utils.Oauth2Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,6 +27,12 @@ public class HotelControllerTestConfig {
 
   @Bean
   public MessageSender messageSender() { return EasyMock.createMock(MessageSender.class); }
+
+  @Bean
+  public MessageReceiver messageReceiver() { return EasyMock.createMock(MessageReceiver.class); }
+
+  @Bean
+  public ActiveMqUtils activeMqUtils() { return  EasyMock.createMock(ActiveMqUtils.class); }
 
   @Bean
   public ObjectMapper objectMapper() {
