@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.evgen.messaging.MessageSender;
 import com.evgen.dao.HotelDao;
 import com.evgen.service.UserCreateService;
 import com.evgen.service.UserCreateServiceImpl;
@@ -23,17 +24,20 @@ public class HotelControllerTestConfig {
   }
 
   @Bean
+  public MessageSender messageSender() { return EasyMock.createMock(MessageSender.class); }
+
+  @Bean
   public ObjectMapper objectMapper() {
     return new ObjectMapper();
   }
 
   @Bean
-  UserCreateService userCreateService() {
+  public UserCreateService userCreateService() {
     return EasyMock.createMock(UserCreateServiceImpl.class);
   }
 
   @Bean
-  Oauth2Utils oauth2Utils() {
+  public Oauth2Utils oauth2Utils() {
     return EasyMock.createMock(Oauth2Utils.class);
   }
 

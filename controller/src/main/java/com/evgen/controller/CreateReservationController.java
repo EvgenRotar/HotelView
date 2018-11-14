@@ -1,6 +1,6 @@
 package com.evgen.controller;
 
-import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,23 +13,31 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.evgen.Message;
 import com.evgen.ReservationRequest;
 import com.evgen.dao.HotelDao;
+import com.evgen.utils.ActiveMqUtils;
 
 @Controller
 public class CreateReservationController {
 
   private final HotelDao hotelDao;
+  private final ActiveMqUtils activeMqUtils;
 
   @Autowired
-  public CreateReservationController(HotelDao hotelDao) {
+  public CreateReservationController(HotelDao hotelDao, ActiveMqUtils activeMqUtils) {
     this.hotelDao = hotelDao;
+    this.activeMqUtils = activeMqUtils;
   }
 
   @PostMapping("/hotel")
   public String selectHotelForm(@ModelAttribute ReservationRequest reservationRequest, Model model) {
     try {
-      List hotels = hotelDao.getHotels();
+      Message message = new Message(UUID.randomUUID().toString(), "retrieveHotels", null);
+
+      Object hotels = activeMqUtils.sendMessage(message);
+      //List hotels = hotelDao.getHotels();
+
       model.addAttribute("hotels", hotels);
 
       return "selectHotelForm";
@@ -41,7 +49,12 @@ public class CreateReservationController {
   @PostMapping("/apartment")
   public String selectApartmentForm(@ModelAttribute ReservationRequest reservationRequest, Model model) {
     try {
-      List hotels = hotelDao.getHotelByName(reservationRequest.getHotelName());
+      Message message = new Message(UUID.randomUUID().toString(), "retrieveHotelByName",
+          reservationRequest.getHotelName());
+
+      Object hotels = activeMqUtils.sendMessage(message);
+      //List hotels = hotelDao.getHotelByName(reservationRequest.getHotelName());
+
       model.addAttribute("hotels", hotels);
 
       return "selectApartmentForm";

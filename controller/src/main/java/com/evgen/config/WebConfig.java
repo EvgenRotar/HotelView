@@ -23,8 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.evgen")
-@PropertySource("classpath:url.properties")
-@Import({SecurityConfig.class, DaoConfig.class})
 public class WebConfig implements WebMvcConfigurer {
 
   private final ApplicationContext applicationContext;

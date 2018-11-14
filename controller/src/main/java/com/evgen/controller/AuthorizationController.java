@@ -2,6 +2,7 @@ package com.evgen.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,8 +16,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.evgen.Guest;
-import com.evgen.dao.HotelDao;
+import com.evgen.Message;
 import com.evgen.service.UserCreateService;
+import com.evgen.utils.ActiveMqUtils;
 import com.evgen.utils.Oauth2Utils;
 import com.evgen.wrapper.ReservationId;
 
@@ -24,16 +26,16 @@ import com.evgen.wrapper.ReservationId;
 public class AuthorizationController {
 
   private final UserCreateService userCreateServiceImpl;
-  private final HotelDao hotelDao;
   private final Oauth2Utils oauth2Utils;
+  private final ActiveMqUtils activeMqUtils;
   private Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
 
   @Autowired
   public AuthorizationController(
-      UserCreateService userCreateServiceImpl, Oauth2Utils oauth2Utils, HotelDao hotelDao) {
+      UserCreateService userCreateServiceImpl, Oauth2Utils oauth2Utils, ActiveMqUtils activeMqUtils) {
     this.userCreateServiceImpl = userCreateServiceImpl;
-    this.hotelDao = hotelDao;
     this.oauth2Utils = oauth2Utils;
+    this.activeMqUtils = activeMqUtils;
   }
 
   @GetMapping("/")
@@ -45,7 +47,11 @@ public class AuthorizationController {
   public String retrieveGuest(@ModelAttribute ReservationId reservationId, Model model) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     try {
-      Guest guest = hotelDao.getGuestByName(authentication.getName());
+      Message message = new Message(UUID.randomUUID().toString(), "retrieveGuestByName", authentication.getName());
+
+      Object guest = activeMqUtils.sendMessage(message);
+      //Guest guest = hotelDao.getGuestByName(authentication.getName());
+
       model.addAttribute(guest);
 
       return "guest";

@@ -99,6 +99,18 @@
       <scope>test</scope>
     </dependency>
 
+    <!--ActiveMq-->
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-spring</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jms</artifactId>
+    </dependency>
+
   </dependencies>
 
 

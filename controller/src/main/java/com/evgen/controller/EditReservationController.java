@@ -1,6 +1,6 @@
 package com.evgen.controller;
 
-import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,25 +13,33 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.evgen.Message;
 import com.evgen.ReservationRequest;
 import com.evgen.builder.ReservationRequestBuilder;
 import com.evgen.dao.HotelDao;
+import com.evgen.utils.ActiveMqUtils;
 import com.evgen.wrapper.EditReservation;
 
 @Controller
 public class EditReservationController {
 
   private final HotelDao hotelDao;
+  private final ActiveMqUtils activeMqUtils;
 
   @Autowired
-  public EditReservationController(HotelDao hotelDao) {
+  public EditReservationController(HotelDao hotelDao, ActiveMqUtils activeMqUtils) {
     this.hotelDao = hotelDao;
+    this.activeMqUtils = activeMqUtils;
   }
 
   @PostMapping("/hotelEdit")
   public String selectHotelEditForm(@ModelAttribute EditReservation editReservation, Model model) {
     try {
-      List hotels = hotelDao.getHotels();
+      Message message = new Message(UUID.randomUUID().toString(), "retrieveHotels", null);
+
+      Object hotels = activeMqUtils.sendMessage(message);
+      //List hotels = hotelDao.getHotels();
+
       model.addAttribute("hotels", hotels);
 
       return "selectHotelEditForm";
@@ -43,7 +51,12 @@ public class EditReservationController {
   @PostMapping("/apartmentEdit")
   public String selectApartmentEditForm(@ModelAttribute EditReservation editReservation, Model model) {
     try {
-      List hotels = hotelDao.getHotelByName(editReservation.getHotelName());
+      Message message = new Message(UUID.randomUUID().toString(), "retrieveHotelByName",
+          editReservation.getHotelName());
+
+      Object hotels = activeMqUtils.sendMessage(message);
+      //List hotels = hotelDao.getHotelByName(editReservation.getHotelName());
+
       model.addAttribute("hotels", hotels);
 
       return "selectApartmentEditForm";

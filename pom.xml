@@ -33,7 +33,8 @@
     <mongodb.version>2.1.0.RELEASE</mongodb.version>
     <httpclient.verison>4.5.2</httpclient.verison>
     <spring-security.version>5.0.6.RELEASE</spring-security.version>
-    <apache.commons.vesrion>3.2.1</apache.commons.vesrion>
+    <apache.commons.version>3.2.1</apache.commons.version>
+    <active-mq.version>5.15.7</active-mq.version>
   </properties>
 
   <dependencyManagement>
@@ -250,7 +251,21 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>${apache.commons.vesrion}</version>
+        <version>${apache.commons.version}</version>
+      </dependency>
+
+      <!--ActiveMQ-->
+
+      <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>activemq-spring</artifactId>
+        <version>${active-mq.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jms</artifactId>
+        <version>${spring.version}</version>
       </dependency>
 
     </dependencies>
