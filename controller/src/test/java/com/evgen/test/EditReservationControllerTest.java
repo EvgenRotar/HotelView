@@ -58,19 +58,19 @@ public class EditReservationControllerTest {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
   }
 
-  @Test
-  public void selectHotelEditFormTest() throws Exception {
-//    expect(hotelDao.getHotels())
-//        .andReturn(new ArrayList());
-//    replay(hotelDao);
-
-    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
-    replay(activeMqUtils);
-
-    this.mockMvc.perform(post("/hotelEdit"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("selectHotelEditForm"));
-  }
+//  @Test
+//  public void selectHotelEditFormTest() throws Exception {
+////    expect(hotelDao.getHotels())
+////        .andReturn(new ArrayList());
+////    replay(hotelDao);
+//
+//    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
+//    replay(activeMqUtils);
+//
+//    this.mockMvc.perform(post("/hotelEdit"))
+//        .andExpect(status().isOk())
+//        .andExpect(view().name("selectHotelEditForm"));
+//  }
 
   @Test
   public void selectApartmentEditFormTest() throws Exception {
@@ -83,19 +83,19 @@ public class EditReservationControllerTest {
         .andExpect(view().name("selectApartmentEditForm"));
   }
 
-  @Test
-  public void editReservationFormTest() throws Exception {
-//    expect(hotelDao.editReservation(anyObject(), anyString()))
-//        .andReturn(new Guest());
-//    replay(hotelDao);
-
-    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
-    replay(activeMqUtils);
-
-    this.mockMvc.perform(post("/edit"))
-        .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/guests"));
-  }
+//  @Test
+//  public void editReservationFormTest() throws Exception {
+////    expect(hotelDao.editReservation(anyObject(), anyString()))
+////        .andReturn(new Guest());
+////    replay(hotelDao);
+//
+//    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
+//    replay(activeMqUtils);
+//
+//    this.mockMvc.perform(post("/edit"))
+//        .andExpect(status().is3xxRedirection())
+//        .andExpect(redirectedUrl("/guests"));
+//  }
 
   @Test
   public void errorPageEditTest() throws Exception {

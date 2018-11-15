@@ -38,7 +38,7 @@ public class ActiveMqUtils {
     }
     Message response = messageReceiver.consume(message.getId());
 
-    return response.getRequestObject();
+    return response.getRequestObject().get(0);
   }
 
 }

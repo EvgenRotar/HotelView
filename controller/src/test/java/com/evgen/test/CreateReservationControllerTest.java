@@ -65,16 +65,16 @@ public class CreateReservationControllerTest {
         .andExpect(redirectedUrl("/guests"));
   }
 
-  @Test
-  public void selectHotelFormTest() throws Exception {
-    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
-    replay(activeMqUtils);
-
-    this.mockMvc.perform(post("/hotel"))
-        .andExpect(status().isOk())
-        .andExpect(content().string(containsString("")))
-        .andExpect(view().name("selectHotelForm"));
-  }
+//  @Test
+//  public void selectHotelFormTest() throws Exception {
+//    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
+//    replay(activeMqUtils);
+//
+//    this.mockMvc.perform(post("/hotel"))
+//        .andExpect(status().isOk())
+//        .andExpect(content().string(containsString("")))
+//        .andExpect(view().name("selectHotelForm"));
+//  }
 
   @Test
   public void selectApartmentFormTest() throws Exception {
