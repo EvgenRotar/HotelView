@@ -1,5 +1,8 @@
 package com.evgen.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,26 +17,26 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.evgen.ReservationRequest;
 import com.evgen.builder.ReservationRequestBuilder;
 import com.evgen.dao.HotelDao;
-import com.evgen.utils.ActiveMqUtils;
+import com.evgen.messaging.MessageSender;
 import com.evgen.wrapper.EditReservation;
 
 @Controller
 public class EditReservationController {
 
   private final HotelDao hotelDao;
-  private final ActiveMqUtils activeMqUtils;
+  private final MessageSender messageSender;
 
   @Autowired
-  public EditReservationController(HotelDao hotelDao, ActiveMqUtils activeMqUtils) {
+  public EditReservationController(HotelDao hotelDao, MessageSender messageSender) {
     this.hotelDao = hotelDao;
-    this.activeMqUtils = activeMqUtils;
+    this.messageSender = messageSender;
   }
 
   @PostMapping("/hotelEdit")
   public String selectHotelEditForm(@ModelAttribute EditReservation editReservation, Model model) {
     try {
-      Object hotels = activeMqUtils.sendMessage("retrieveHotels", null);
-      //List hotels = hotelDao.getHotels();
+      //Object hotels = messageSender.sendMessageToAvailability("retrieveHotels", null);
+      List hotels = hotelDao.getHotels();
 
       model.addAttribute("hotels", hotels);
 
@@ -46,8 +49,8 @@ public class EditReservationController {
   @PostMapping("/apartmentEdit")
   public String selectApartmentEditForm(@ModelAttribute EditReservation editReservation, Model model) {
     try {
-      Object hotels = activeMqUtils.sendMessage("retrieveHotelByName", editReservation.getHotelName());
-      //List hotels = hotelDao.getHotelByName(editReservation.getHotelName());
+      //Object hotels = messageSender.sendMessageToAvailability("retrieveHotelByName", editReservation.getHotelName());
+      List hotels = hotelDao.getHotelByName(editReservation.getHotelName());
 
       model.addAttribute("hotels", hotels);
 
@@ -62,6 +65,12 @@ public class EditReservationController {
       RedirectAttributes attributes) {
     try {
       ReservationRequest request = ReservationRequestBuilder.build(editReservation);
+
+      List<Object> requestForRes = new ArrayList<>();
+      requestForRes.add(editReservation.getReservationId());
+      requestForRes.add(request);
+
+      //messageSender.sendMessageToReservation("updateReservation", requestForRes);
       hotelDao.editReservation(request, editReservation.getReservationId());
 
       return new RedirectView("/guests");

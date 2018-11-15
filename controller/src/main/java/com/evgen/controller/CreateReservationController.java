@@ -1,5 +1,7 @@
 package com.evgen.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,25 +15,25 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.evgen.ReservationRequest;
 import com.evgen.dao.HotelDao;
-import com.evgen.utils.ActiveMqUtils;
+import com.evgen.messaging.MessageSender;
 
 @Controller
 public class CreateReservationController {
 
   private final HotelDao hotelDao;
-  private final ActiveMqUtils activeMqUtils;
+  private final MessageSender messageSender;
 
   @Autowired
-  public CreateReservationController(HotelDao hotelDao, ActiveMqUtils activeMqUtils) {
+  public CreateReservationController(HotelDao hotelDao, MessageSender messageSender) {
     this.hotelDao = hotelDao;
-    this.activeMqUtils = activeMqUtils;
+    this.messageSender = messageSender;
   }
 
   @PostMapping("/hotel")
   public String selectHotelForm(@ModelAttribute ReservationRequest reservationRequest, Model model) {
     try {
-      Object hotels = activeMqUtils.sendMessage("retrieveHotels", null);
-      //List hotels = hotelDao.getHotels();
+      //Object hotels = messageSender.sendMessageToAvailability("retrieveHotels", null);
+      List hotels = hotelDao.getHotels();
 
       model.addAttribute("hotels", hotels);
 
@@ -44,8 +46,8 @@ public class CreateReservationController {
   @PostMapping("/apartment")
   public String selectApartmentForm(@ModelAttribute ReservationRequest reservationRequest, Model model) {
     try {
-      Object hotels = activeMqUtils.sendMessage("retrieveHotelByName", reservationRequest.getHotelName());
-      //List hotels = hotelDao.getHotelByName(reservationRequest.getHotelName());
+      //Object hotels = messageSender.sendMessageToAvailability("retrieveHotelByName", reservationRequest.getHotelName());
+      List hotels = hotelDao.getHotelByName(reservationRequest.getHotelName());
 
       model.addAttribute("hotels", hotels);
 
@@ -58,6 +60,7 @@ public class CreateReservationController {
   @PostMapping("/create")
   public RedirectView createReservation(ReservationRequest reservationRequest, RedirectAttributes attributes) {
     try {
+      //messageSender.sendMessageToReservation("createReservation", reservationRequest);
       hotelDao.createReservation(reservationRequest);
 
       return new RedirectView("/guests");

@@ -22,7 +22,7 @@ public class DaoConfig {
   }
 
   @Bean
-  RestTemplate restTemplate(ObjectMapper objectMapper) {
+  public RestTemplate restTemplate(ObjectMapper objectMapper) {
     HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
     httpRequestFactory.setConnectTimeout(5000);
     httpRequestFactory.setReadTimeout(5000);

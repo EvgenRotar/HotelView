@@ -14,8 +14,11 @@ public class MessagingConfiguration {
   @Value("${activeMq.url}")
   private String DEFAULT_BROKER_URL;
 
-  @Value("${activeMq.queue}")
-  private String QUEUE;
+  @Value("${activeMq.availability-queue}")
+  private String AVAILABILITY_QUEUE;
+
+  @Value("${activeMq.reservation-queue}")
+  private String RESERVATION_QUEUE;
 
   @Bean
   public ActiveMQConnectionFactory connectionFactory() {
@@ -26,10 +29,18 @@ public class MessagingConfiguration {
   }
 
   @Bean
-  public JmsTemplate jmsTemplate() {
+  public JmsTemplate jmsTemplateAvailability() {
     JmsTemplate template = new JmsTemplate();
     template.setConnectionFactory(connectionFactory());
-    template.setDefaultDestinationName(QUEUE);
+    template.setDefaultDestinationName(AVAILABILITY_QUEUE);
+    return template;
+  }
+
+  @Bean
+  public JmsTemplate jmsTemplateReservation() {
+    JmsTemplate template = new JmsTemplate();
+    template.setConnectionFactory(connectionFactory());
+    template.setDefaultDestinationName(RESERVATION_QUEUE);
     return template;
   }
 }

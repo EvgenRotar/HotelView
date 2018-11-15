@@ -15,8 +15,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.evgen.Guest;
+import com.evgen.dao.HotelDao;
+import com.evgen.messaging.MessageSender;
 import com.evgen.service.UserCreateService;
-import com.evgen.utils.ActiveMqUtils;
 import com.evgen.utils.Oauth2Utils;
 import com.evgen.wrapper.ReservationId;
 
@@ -25,15 +26,18 @@ public class AuthorizationController {
 
   private final UserCreateService userCreateServiceImpl;
   private final Oauth2Utils oauth2Utils;
-  private final ActiveMqUtils activeMqUtils;
+  private final MessageSender messageSender;
+  private final HotelDao hotelDao;
   private Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
 
   @Autowired
   public AuthorizationController(
-      UserCreateService userCreateServiceImpl, Oauth2Utils oauth2Utils, ActiveMqUtils activeMqUtils) {
+      UserCreateService userCreateServiceImpl, Oauth2Utils oauth2Utils, MessageSender messageSender,
+      HotelDao hotelDao) {
     this.userCreateServiceImpl = userCreateServiceImpl;
     this.oauth2Utils = oauth2Utils;
-    this.activeMqUtils = activeMqUtils;
+    this.messageSender = messageSender;
+    this.hotelDao = hotelDao;
   }
 
   @GetMapping("/")
@@ -45,8 +49,8 @@ public class AuthorizationController {
   public String retrieveGuest(@ModelAttribute ReservationId reservationId, Model model) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     try {
-      Object guest = activeMqUtils.sendMessage("retrieveGuestByName", authentication.getName());
-      //Guest guest = hotelDao.getGuestByName(authentication.getName());
+      //Object guest = messageSender.sendMessageToAvailability("retrieveGuestByName", authentication.getName());
+      Guest guest = hotelDao.getGuestByName(authentication.getName());
 
       model.addAttribute(guest);
 

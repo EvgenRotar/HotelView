@@ -27,9 +27,17 @@ public class MessageReceiver {
     return responseMessages.remove(id);
   }
 
-  @JmsListener(destination = "response-queue")
-  public void receiveMessage(final Message<com.evgen.Message> message) {
+  @JmsListener(destination = "availability-response-queue")
+  public void receiveMessageFromAvailability(final Message<com.evgen.Message> message) {
+    receiveMessage(message);
+  }
 
+  @JmsListener(destination = "reservation-response-queue")
+  public void receiveMessageFromReservation(final Message<com.evgen.Message> message) {
+    receiveMessage(message);
+  }
+
+  private void receiveMessage(Message<com.evgen.Message> message) {
     MessageHeaders headers = message.getHeaders();
     com.evgen.Message response = message.getPayload();
 

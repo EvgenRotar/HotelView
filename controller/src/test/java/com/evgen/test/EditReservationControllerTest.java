@@ -3,6 +3,7 @@ package com.evgen.test;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.anyString;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isNull;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,10 +27,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.evgen.Guest;
-import com.evgen.Message;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
-import com.evgen.utils.ActiveMqUtils;
+import com.evgen.messaging.MessageSender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
@@ -45,11 +45,11 @@ public class EditReservationControllerTest {
   private HotelDao hotelDao;
 
   @Autowired
-  private ActiveMqUtils activeMqUtils;
+  private MessageSender messageSender;
 
   @After
   public void tearDown() {
-    reset(activeMqUtils);
+    reset(messageSender);
     reset(hotelDao);
   }
 
@@ -58,19 +58,16 @@ public class EditReservationControllerTest {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
   }
 
-//  @Test
-//  public void selectHotelEditFormTest() throws Exception {
-////    expect(hotelDao.getHotels())
-////        .andReturn(new ArrayList());
-////    replay(hotelDao);
-//
-//    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
-//    replay(activeMqUtils);
-//
-//    this.mockMvc.perform(post("/hotelEdit"))
-//        .andExpect(status().isOk())
-//        .andExpect(view().name("selectHotelEditForm"));
-//  }
+  @Test
+  public void selectHotelEditFormTest() throws Exception {
+    expect(hotelDao.getHotels())
+        .andReturn(new ArrayList());
+    replay(hotelDao);
+
+    this.mockMvc.perform(post("/hotelEdit"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("selectHotelEditForm"));
+  }
 
   @Test
   public void selectApartmentEditFormTest() throws Exception {
@@ -83,19 +80,19 @@ public class EditReservationControllerTest {
         .andExpect(view().name("selectApartmentEditForm"));
   }
 
-//  @Test
-//  public void editReservationFormTest() throws Exception {
-////    expect(hotelDao.editReservation(anyObject(), anyString()))
-////        .andReturn(new Guest());
-////    replay(hotelDao);
-//
-//    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
-//    replay(activeMqUtils);
-//
-//    this.mockMvc.perform(post("/edit"))
-//        .andExpect(status().is3xxRedirection())
-//        .andExpect(redirectedUrl("/guests"));
-//  }
+  @Test
+  public void editReservationFormTest() throws Exception {
+    expect(hotelDao.editReservation(anyObject(), anyString()))
+        .andReturn(new Guest());
+    replay(hotelDao);
+
+    expect(messageSender.sendMessageToReservation(anyString(), anyObject())).andReturn(new Object());
+    replay(messageSender);
+
+    this.mockMvc.perform(post("/edit"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/guests"));
+  }
 
   @Test
   public void errorPageEditTest() throws Exception {

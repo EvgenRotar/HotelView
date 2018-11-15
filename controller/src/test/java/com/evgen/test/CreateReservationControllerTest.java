@@ -1,6 +1,7 @@
 package com.evgen.test;
 
 import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.anyString;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +27,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.evgen.Guest;
-import com.evgen.Message;
 import com.evgen.ReservationRequest;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
-import com.evgen.utils.ActiveMqUtils;
+import com.evgen.messaging.MessageSender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
@@ -45,12 +46,12 @@ public class CreateReservationControllerTest {
   private HotelDao hotelDao;
 
   @Autowired
-  private ActiveMqUtils activeMqUtils;
+  private MessageSender messageSender;
 
   @After
   public void tearDown() {
     reset(hotelDao);
-    reset(activeMqUtils);
+    reset(messageSender);
   }
 
   @Before
@@ -65,16 +66,16 @@ public class CreateReservationControllerTest {
         .andExpect(redirectedUrl("/guests"));
   }
 
-//  @Test
-//  public void selectHotelFormTest() throws Exception {
-//    expect(activeMqUtils.sendMessage(anyObject(Message.class))).andReturn(new Object());
-//    replay(activeMqUtils);
-//
-//    this.mockMvc.perform(post("/hotel"))
-//        .andExpect(status().isOk())
-//        .andExpect(content().string(containsString("")))
-//        .andExpect(view().name("selectHotelForm"));
-//  }
+  @Test
+  public void selectHotelFormTest() throws Exception {
+    expect(messageSender.sendMessageToAvailability(anyString(), anyObject())).andReturn(new Object());
+    replay(messageSender);
+
+    this.mockMvc.perform(post("/hotel"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("")))
+        .andExpect(view().name("selectHotelForm"));
+  }
 
   @Test
   public void selectApartmentFormTest() throws Exception {
