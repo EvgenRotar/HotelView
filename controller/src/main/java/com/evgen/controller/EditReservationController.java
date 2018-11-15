@@ -1,7 +1,5 @@
 package com.evgen.controller;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +11,6 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.evgen.Message;
 import com.evgen.ReservationRequest;
 import com.evgen.builder.ReservationRequestBuilder;
 import com.evgen.dao.HotelDao;
@@ -35,9 +32,7 @@ public class EditReservationController {
   @PostMapping("/hotelEdit")
   public String selectHotelEditForm(@ModelAttribute EditReservation editReservation, Model model) {
     try {
-      Message message = new Message(UUID.randomUUID().toString(), "retrieveHotels", null);
-
-      Object hotels = activeMqUtils.sendMessage(message);
+      Object hotels = activeMqUtils.sendMessage("retrieveHotels", null);
       //List hotels = hotelDao.getHotels();
 
       model.addAttribute("hotels", hotels);
@@ -51,10 +46,7 @@ public class EditReservationController {
   @PostMapping("/apartmentEdit")
   public String selectApartmentEditForm(@ModelAttribute EditReservation editReservation, Model model) {
     try {
-      Message message = new Message(UUID.randomUUID().toString(), "retrieveHotelByName",
-          editReservation.getHotelName());
-
-      Object hotels = activeMqUtils.sendMessage(message);
+      Object hotels = activeMqUtils.sendMessage("retrieveHotelByName", editReservation.getHotelName());
       //List hotels = hotelDao.getHotelByName(editReservation.getHotelName());
 
       model.addAttribute("hotels", hotels);

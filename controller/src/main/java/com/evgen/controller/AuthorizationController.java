@@ -2,7 +2,6 @@ package com.evgen.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,7 +15,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.evgen.Guest;
-import com.evgen.Message;
 import com.evgen.service.UserCreateService;
 import com.evgen.utils.ActiveMqUtils;
 import com.evgen.utils.Oauth2Utils;
@@ -47,9 +45,7 @@ public class AuthorizationController {
   public String retrieveGuest(@ModelAttribute ReservationId reservationId, Model model) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     try {
-      Message message = new Message(UUID.randomUUID().toString(), "retrieveGuestByName", authentication.getName());
-
-      Object guest = activeMqUtils.sendMessage(message);
+      Object guest = activeMqUtils.sendMessage("retrieveGuestByName", authentication.getName());
       //Guest guest = hotelDao.getGuestByName(authentication.getName());
 
       model.addAttribute(guest);
