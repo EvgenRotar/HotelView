@@ -24,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.evgen.Guest;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
+import com.evgen.messaging.MessageSender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
@@ -38,9 +39,13 @@ public class DeleteReservationTest {
   @Autowired
   private HotelDao hotelDao;
 
+  @Autowired
+  private MessageSender messageSender;
+
   @After
   public void tearDown() {
     reset(hotelDao);
+    reset(messageSender);
   }
 
   @Before
@@ -53,6 +58,10 @@ public class DeleteReservationTest {
     expect(hotelDao.deleteReservation(anyString(), anyString()))
         .andReturn(new Guest());
     replay(hotelDao);
+
+//    expect(messageSender.sendMessageToReservation(anyString(), anyObject()))
+//        .andReturn(new Guest());
+//    replay(hotelDao);
 
     this.mockMvc.perform(post("/delete"))
         .andExpect(status().is3xxRedirection())

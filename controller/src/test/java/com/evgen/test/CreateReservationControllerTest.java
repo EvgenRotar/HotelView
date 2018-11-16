@@ -1,6 +1,7 @@
 package com.evgen.test;
 
 import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.anyString;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import com.evgen.Guest;
 import com.evgen.ReservationRequest;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
+import com.evgen.messaging.MessageSender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
@@ -42,9 +45,13 @@ public class CreateReservationControllerTest {
   @Autowired
   private HotelDao hotelDao;
 
+  @Autowired
+  private MessageSender messageSender;
+
   @After
   public void tearDown() {
     reset(hotelDao);
+    reset(messageSender);
   }
 
   @Before
@@ -61,6 +68,9 @@ public class CreateReservationControllerTest {
 
   @Test
   public void selectHotelFormTest() throws Exception {
+    expect(messageSender.sendMessageToAvailability(anyString(), anyObject())).andReturn(new Object());
+    replay(messageSender);
+
     this.mockMvc.perform(post("/hotel"))
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("")))

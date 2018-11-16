@@ -15,21 +15,26 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.evgen.ReservationRequest;
 import com.evgen.dao.HotelDao;
+import com.evgen.messaging.MessageSender;
 
 @Controller
 public class CreateReservationController {
 
   private final HotelDao hotelDao;
+  private final MessageSender messageSender;
 
   @Autowired
-  public CreateReservationController(HotelDao hotelDao) {
+  public CreateReservationController(HotelDao hotelDao, MessageSender messageSender) {
     this.hotelDao = hotelDao;
+    this.messageSender = messageSender;
   }
 
   @PostMapping("/hotel")
   public String selectHotelForm(@ModelAttribute ReservationRequest reservationRequest, Model model) {
     try {
+      //Object hotels = messageSender.sendMessageToAvailability("retrieveHotels", null);
       List hotels = hotelDao.getHotels();
+
       model.addAttribute("hotels", hotels);
 
       return "selectHotelForm";
@@ -41,7 +46,9 @@ public class CreateReservationController {
   @PostMapping("/apartment")
   public String selectApartmentForm(@ModelAttribute ReservationRequest reservationRequest, Model model) {
     try {
+      //Object hotels = messageSender.sendMessageToAvailability("retrieveHotelByName", reservationRequest.getHotelName());
       List hotels = hotelDao.getHotelByName(reservationRequest.getHotelName());
+
       model.addAttribute("hotels", hotels);
 
       return "selectApartmentForm";
@@ -53,6 +60,7 @@ public class CreateReservationController {
   @PostMapping("/create")
   public RedirectView createReservation(ReservationRequest reservationRequest, RedirectAttributes attributes) {
     try {
+      //messageSender.sendMessageToReservation("createReservation", reservationRequest);
       hotelDao.createReservation(reservationRequest);
 
       return new RedirectView("/guests");

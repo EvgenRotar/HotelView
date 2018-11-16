@@ -3,6 +3,7 @@ package com.evgen.test;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.anyString;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isNull;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,6 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.evgen.Guest;
 import com.evgen.config.HotelControllerTestConfig;
 import com.evgen.dao.HotelDao;
+import com.evgen.messaging.MessageSender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HotelControllerTestConfig.class)
@@ -42,8 +44,12 @@ public class EditReservationControllerTest {
   @Autowired
   private HotelDao hotelDao;
 
+  @Autowired
+  private MessageSender messageSender;
+
   @After
   public void tearDown() {
+    reset(messageSender);
     reset(hotelDao);
   }
 
@@ -79,6 +85,9 @@ public class EditReservationControllerTest {
     expect(hotelDao.editReservation(anyObject(), anyString()))
         .andReturn(new Guest());
     replay(hotelDao);
+
+    expect(messageSender.sendMessageToReservation(anyString(), anyObject())).andReturn(new Object());
+    replay(messageSender);
 
     this.mockMvc.perform(post("/edit"))
         .andExpect(status().is3xxRedirection())
