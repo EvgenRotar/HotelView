@@ -1,0 +1,5 @@
+
+description = ''
+dependencies {
+    compile group: 'com.com.evgen', name: 'model', version:'1.0-SNAPSHOT'
+}

@@ -1,0 +1,14 @@
+rootProject.name = 'HotelView'
+include ':dao'
+include ':controller'
+include ':dao-api'
+include ':wrapper'
+include ':service'
+include ':service-api'
+
+project(':dao').projectDir = "$rootDir/dao" as File
+project(':controller').projectDir = "$rootDir/controller" as File
+project(':dao-api').projectDir = "$rootDir/dao-api" as File
+project(':wrapper').projectDir = "$rootDir/wrapper" as File
+project(':service').projectDir = "$rootDir/service" as File
+project(':service-api').projectDir = "$rootDir/service-api" as File
