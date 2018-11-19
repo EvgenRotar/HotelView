@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 rm -rf ./targetDeploy/*
 
-mvn clean install -DskipTests
-cp ./controller/target/*.war -d targetDeploy/ROOT.war
+gradle build
+cp controller/build/libs/*.war -d targetDeploy/ROOT.war
